@@ -70,9 +70,10 @@ function SearchResto() {
         )}
         */}
         <div className={classes.contImg}>
-          {local && local.imagen && ( // Verifica si hay datos y una URL de imagen
-            <img src={local.imagen} alt="Local" style={{ width: "100%" }} />
-          )}
+          {local &&
+            local.imagen && ( // Verifica si hay datos y una URL de imagen
+              <img src={local.imagen} alt="Local" style={{ width: "100%" }} />
+            )}
         </div>
       </Container>
 
@@ -110,7 +111,11 @@ function SearchResto() {
 
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
-            <Button variant="contained" component={Link} to="/dashboard/items">
+            <Button
+              variant="contained"
+              component={Link}
+              to={`/dashboard/items/${id}`}
+            >
               VER MENÚ
             </Button>
           </Grid>
@@ -134,3 +139,4 @@ function SearchResto() {
 }
 
 export default SearchResto;
+
