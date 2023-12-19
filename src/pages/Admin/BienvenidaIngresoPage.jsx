@@ -1,9 +1,11 @@
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
   Grid,
   Button,
   Divider,
+  TextField,
   makeStyles,
 } from "@material-ui/core";
 
@@ -22,6 +24,44 @@ const useStyles = makeStyles((theme) => ({
 function BienvenidaIngresoPage() {
   const classes = useStyles();
 
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleLogin = () => {
+    debugger;
+    fetch(`http://localhost:8080/comanda/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    }).then((response) => {
+      console.log(response);
+      if (!response.ok) {
+        console.error("Error al actualizar el usuario:", response.status);
+        //window.location.href = "/admin/editar-usuarios-error-1";
+        throw new Error("Error al actualizar el usuario");
+      }
+      fetch("http://localhost:8080/comanda/usuario")
+        .then((response) => response.json())
+        .then((data) => {
+          //debugger;
+          //setUser(data); // Actualizar el estado de usuarios
+          // Redirigir a la página de lista de usuarios después de editar
+          window.location.href = "/admin/editar-usuarios-2";
+        })
+        .catch((error) => {
+          debugger;
+          console.error("Error al login", error);
+        });
+
+      return response.json();
+    });
+    // Obtener la lista actualizada de usuarios después de editar
+  };
+
   return (
     <Container maxWidth="sm">
       <Grid container justifyContent="center" className={classes.flexTop}>
@@ -36,22 +76,37 @@ function BienvenidaIngresoPage() {
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xs={12}>
-          <LayoutTextFields
+          Correo electrónico:
+          <TextField
             titulo="Correo electrónico"
             texto="Ingrese su correo electrónico"
+            value={formData.email}
+            onChange={(e) => {
+              setFormData({ ...formData, email: e.target.value });
+            }}
           />
         </Grid>
       </Grid>
 
       <Grid container justifyContent="center">
-        <Grid item xs={12}> 
-          <LayoutTextFields titulo="Contraseña" texto="Ingrese su contraseña" />
+        <Grid item xs={12}>
+          Contraseña:{" "}
+          <TextField
+            type="password"
+            titulo="Contraseña"
+            texto="Ingrese su contraseña"
+            value={formData.password}
+            onChange={(e) => {
+              setFormData({ ...formData, password: e.target.value });
+            }}
+          />
         </Grid>
       </Grid>
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item>
-          <Button variant="contained" color="primary" component={Link} to="/admin/ver-inicio">
+          {/* <Button variant="contained" color="primary" component={Link} to="/admin/ver-inicio"> */}
+          <Button variant="contained" color="primary" onClick={handleLogin}>
             INGRESAR
           </Button>
         </Grid>
@@ -67,7 +122,11 @@ function BienvenidaIngresoPage() {
 
       <Grid container justifyContent="center">
         <Grid item>
-          <Button color="primary" component={Link} to="/admin/registrar-usuario">
+          <Button
+            color="primary"
+            component={Link}
+            to="/admin/registrar-usuario"
+          >
             ¿No tenés cuenta? Registrate
           </Button>
         </Grid>
