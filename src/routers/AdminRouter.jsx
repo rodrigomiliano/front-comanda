@@ -61,10 +61,9 @@ import EstadisticasFacturacionPage from "../pages/Admin/EstadisticasFacturacionP
 const AdminRouter = () => {
   return (
     <Container maxWidth="xl" disableGutters={true}>
-      <AppBar />
-      <Container>
-        <Routes>
-          <Route path="bienvenida-ingreso-error" element={<BienvenidaIngresoPageError />} />
+      <Routes>
+        <Route path="/" element={<BienvenidaIngresoPage />} />
+        <Route path="bienvenida-ingreso-error" element={<BienvenidaIngresoPageError />} />
           <Route path="restablecer-pass" element={<RestablecerPassPage />} />
           <Route path="restablecer-pass-2" element={<RestablecerPassPage2 />} />
           <Route path="restablecer-pass-error-1" element={<RestablecerPassPageError />} />
@@ -73,6 +72,23 @@ const AdminRouter = () => {
           <Route path="mail-restablecer-error-1" element={<MailRestablecerPageError1 />} />
           <Route path="mail-restablecer-error-2" element={<MailRestablecerPageError2 />} />
           <Route path="mail-restablecer-2" element={<MailRestablecerPage2 />} />
+          <Route path="registrar-usuario" element={<RegistrarUsuarioPage />} />
+          <Route path="registrar-usuario-2" element={<RegistrarUsuarioPage2 />} />
+          <Route path="registrar-usuario-error-1" element={<RegistrarUsuarioErrorPage />} />
+          <Route path="registrar-usuario-error-2" element={<RegistrarUsuarioErrorPage2 />} />
+        <Route path="/*" element={<WithAppBar />} />
+      </Routes>
+    </Container>
+  );
+};
+
+const WithAppBar = ({ children }) => {
+  return (
+    <Container maxWidth="xl" disableGutters={true}>
+      <AppBar />
+      {children}
+      <Container>
+        <Routes>          
           <Route path="ver-inicio" element={<VerInicioPage />} />
           <Route path="alta-locales" element={<AltaLocalesPage />} />
           <Route path="alta-locales-2" element={<AltaLocalesPage2 />} />
@@ -81,11 +97,7 @@ const AdminRouter = () => {
           <Route path="baja-locales" element={<BajaLocalesPage />} />
           <Route path="editar-locales/:id" element={<EditarLocalesPage />} />
           <Route path="editar-locales-2" element={<EditarLocalesPage2 />} />
-          <Route path="editar-locales-3" element={<EditarLocalesPage3 />} />
-          <Route path="registrar-usuario" element={<RegistrarUsuarioPage />} />
-          <Route path="registrar-usuario-2" element={<RegistrarUsuarioPage2 />} />
-          <Route path="registrar-usuario-error-1" element={<RegistrarUsuarioErrorPage />} />
-          <Route path="registrar-usuario-error-2" element={<RegistrarUsuarioErrorPage2 />} />
+          <Route path="editar-locales-3" element={<EditarLocalesPage3 />} />          
           <Route path="alta-usuarios" element={<AltaUsuariosPage />} />
           <Route path="alta-usuarios-2" element={<AltaUsuariosPage2 />} />
           <Route path="alta-usuarios-2-error-1" element={<AltaUsuariosPage2Error1 />} />
@@ -116,8 +128,7 @@ const AdminRouter = () => {
           <Route path="baja-categorias" element={<BajaCategoriasPage />} />
           <Route path="editar-categorias/:id" element={<EditarCategoriasPage />} />
           <Route path="editar-categorias-error-1" element={<EditarCategoriasPageError1 />} />
-          <Route path="editar-categorias-2" element={<EditarCategoriasPage2 />} />
-          <Route path="/" element={<BienvenidaIngresoPage />} />
+          <Route path="editar-categorias-2" element={<EditarCategoriasPage2 />} />          
         </Routes>
       </Container>
     </Container>

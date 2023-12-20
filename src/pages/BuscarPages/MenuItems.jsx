@@ -14,7 +14,6 @@ import {
 import { Link } from "react-router-dom";
 import SearchBar from "../../components/SearchBar";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import CarouselLink from "../../components/CarouselLink";
 import MediaControlCard from "../../components/MediaControlCard";
 import AddIcon from "@material-ui/icons/Add";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -39,15 +38,51 @@ function MenuItems() {
   const [searchTerm, setSearchTerm] = useState("");
   const [locales, setLocales] = useState([]);
   const [categorias, setCategorias] = useState([]);
+  const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const productosDelLocal = productos.filter(
     (producto) => producto.local.id === parseInt(id)
   );
   const classes = useStyles();
+  // Agregar un estado para la categoría seleccionada
+  const [selectedCategory, setSelectedCategory] = useState("");
+  // Obtener categorías únicas de los productos del local seleccionado
+  const categoriesFromProducts = productosDelLocal.map(
+    (producto) => producto.categoria
+  );
+  const uniqueCategories = Array.from(new Set(categoriesFromProducts));
+
+  // Función para filtrar productos por categoría seleccionada
+  const filterProductsByCategory = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  useEffect(() => {
+    // Llamada a la API para obtener las categorías
+    fetch(`http://localhost:8080/comanda/categoria`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCategoria(data || []);
+      })
+      .catch((error) => {
+        console.error("Error al obtener categorías:", error);
+      });
+  }, []);
+
+  // Filtrar productos por categoría seleccionada
+  const filteredProducts = productosDelLocal.filter(
+    (producto) =>
+      selectedCategory === "" || producto.categoria === selectedCategory
+  );
 
   useEffect(() => {
     console.log("ID del local:", id);
-    fetch(`http://localhost:8080/comanda/producto/local/${id}`) 
+    fetch(`http://localhost:8080/comanda/producto/local/${id}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -144,6 +179,29 @@ function MenuItems() {
           </Grid>
         </Grid>
 
+        {/* Lista desplegable generada a partir de las categorías únicas */}
+        <select value={selectedCategory} onChange={filterProductsByCategory}>
+          <option value="">Todas las categorías</option>
+          {categoria.map((cat) => (
+            <option key={cat.id} value={cat.nombre}>
+              {cat.nombre}
+            </option>
+          ))}
+        </select>
+
+        {/* Filtrar y mostrar los productos */}
+        {productosDelLocal
+          .filter((producto) => {
+            if (selectedCategory === "") {
+              return true; // Mostrar todos si no se ha seleccionado una categoría
+            }
+            return producto.categoria === selectedCategory;
+          })
+          .map((producto) => (
+            // Aquí muestras los productos que coinciden con la categoría seleccionada
+            <div key={producto.id}>{producto.nombre}</div>
+          ))}
+
         {/* Mostrar locales y categorías filtrados */}
         {filteredProductos.map((producto) => (
           <div key={producto.id}>{producto.nombre}</div>
@@ -202,13 +260,6 @@ function MenuItems() {
           </Paper>
         ))}
 
-        {/*TODO: Tomar las categorias desde bd, no desde acá.  */}
-        <Grid container justifyContent="center" className={classes.flexTop}>
-          <Grid item xs={12}>
-            <CarouselLink slides={category} />
-          </Grid>
-        </Grid>
-
         <Grid container justifyContent="center" className={classes.flexEnd}>
           <Grid item>
             <Button
@@ -225,15 +276,5 @@ function MenuItems() {
     </>
   );
 }
-
-const category = [
-  { text: "Pastas", link: "/pastas" },
-  { text: "Parrilla", link: "/parrilla" },
-  { text: "Ensaladas", link: "/ensaladas" },
-  { text: "Entradas", link: "/entradas" },
-  { text: "Postres", link: "/postres" },
-  { text: "Bebidas", link: "/bebidas" },
-  { text: "Vinos", link: "/vinos" },
-];
 
 export default MenuItems;
