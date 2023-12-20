@@ -37,28 +37,24 @@ function BienvenidaIngresoPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
-    }).then((response) => {
-      console.log(response);
-      if (!response.ok) {
-        console.error("Error al actualizar el usuario:", response.status);
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         //window.location.href = "/admin/editar-usuarios-error-1";
-        throw new Error("Error al actualizar el usuario");
-      }
-      fetch("http://localhost:8080/comanda/usuario")
-        .then((response) => response.json())
-        .then((data) => {
-          //debugger;
-          //setUser(data); // Actualizar el estado de usuarios
-          // Redirigir a la página de lista de usuarios después de editar
-          window.location.href = "/admin/editar-usuarios-2";
-        })
-        .catch((error) => {
-          debugger;
-          console.error("Error al login", error);
-        });
+        fetch("http://localhost:8080/comanda/usuario")
+          .then((response) => response.json())
+          .then((data) => {
+            localStorage.setItem("user", data);
+            window.location.href = "/admin/editar-usuarios-2";
+          })
+          .catch((error) => {
+            debugger;
+            console.error("Error al login", error);
+          });
 
-      return response.json();
-    });
+        return response.json();
+      });
     // Obtener la lista actualizada de usuarios después de editar
   };
 
