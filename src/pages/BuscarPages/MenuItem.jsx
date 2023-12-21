@@ -100,7 +100,7 @@ function MenuItem() {
               variant="contained"
               color="primary"
               component={Link}
-              to="/dashboard/reservar-mesa-a"
+              to="/reservar-mesa-a"
             >
               RESERVAR MESA
             </Button>

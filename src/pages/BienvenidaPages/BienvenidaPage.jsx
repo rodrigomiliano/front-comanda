@@ -132,7 +132,7 @@ function BienvenidaPage() {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to="/dashboard/search"
+                  to="/search"
                 >
                   Aceptar y continuar
                 </Button>

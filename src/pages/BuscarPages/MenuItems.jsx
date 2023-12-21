@@ -172,7 +172,7 @@ function MenuItems() {
                 );
                 if (selectedLocal) {
                   // Redirige a la página de detalles del local con el ID del local seleccionado
-                  window.location.href = `/dashboard/resto/${selectedLocal.id}`;
+                  window.location.href = `/resto/${selectedLocal.id}`;
                 }
               }}
             />
@@ -214,7 +214,7 @@ function MenuItems() {
                 <ButtonBase
                   className={classes.image}
                   component={Link}
-                  to={`/dashboard/item/${producto.id}`}
+                  to={`/item/${producto.id}`}
                 >
                   <img
                     className={classes.img}
@@ -250,7 +250,7 @@ function MenuItems() {
                     aria-label="add"
                     size="small"
                     component={Link}
-                    to={`/dashboard/crear-orden/${producto.id}`}
+                    to={`/crear-orden/${producto.id}`}
                   >
                     <AddIcon />
                   </Fab>
@@ -266,7 +266,7 @@ function MenuItems() {
               variant="contained"
               color="primary"
               component={Link}
-              to="/dashboard/reservar-mesa-a"
+              to="/reservar-mesa-a"
             >
               RESERVAR
             </Button>

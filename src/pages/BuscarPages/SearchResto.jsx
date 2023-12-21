@@ -114,7 +114,7 @@ function SearchResto() {
             <Button
               variant="contained"
               component={Link}
-              to={`/dashboard/items/${id}`}
+              to={`/items/${id}`}
             >
               VER MENÚ
             </Button>
@@ -127,7 +127,7 @@ function SearchResto() {
               variant="contained"
               color="primary"
               component={Link}
-              to="/dashboard/reservar-mesa-a"
+              to="/reservar-mesa-a"
             >
               RESERVAR MESA
             </Button>

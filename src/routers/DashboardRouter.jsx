@@ -65,7 +65,7 @@ const DashboardRouter = () => {
       <Routes>
         <Route path="alert" element={<AlertPage />} />
         <Route path="plate" element={<PlatePage />} />
-        <Route path="bienvenida" element={<BienvenidaPage />} />
+        
         <Route path="sidemenu" element={<SideMenuPage />} />
         <Route path="ver-mis-reservas" element={<VerMisReservasPage />} />
         <Route path="ver-mis-reservas-error" element={<VerMisReservasErrorPage />} />
@@ -114,7 +114,7 @@ const DashboardRouter = () => {
         <Route path="gestionar-pago-2" element={<GestionarPagoPage2 />} />    
         <Route path="confirma-reserva" element={<ConfirmaReservaPage />} />
 
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<BienvenidaPage />} />
 
 
       </Routes>
