@@ -59,7 +59,6 @@ function AppBar() {
     const user = localStorage.getKey("user");
     return user != null;
   };
-
   return (
     <>
       <CssBaseline />

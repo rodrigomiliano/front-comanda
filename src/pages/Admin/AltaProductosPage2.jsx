@@ -44,7 +44,7 @@ function AltaProductosPage2() {
   });
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
-
+  
   const handlePriceChange = (value) => {
     const isNumber = !isNaN(parseFloat(value)) && isFinite(value);
     const isFormDataValid =
@@ -135,7 +135,7 @@ function AltaProductosPage2() {
       // setErrorMessage("Error al agregar el producto: " + error.message);
     }
   };
-
+  
   return (
     <Container maxWidth="xl">
       <Grid container justifyContent="center" className={classes.flexTop}>

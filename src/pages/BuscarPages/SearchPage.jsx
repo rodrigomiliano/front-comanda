@@ -108,7 +108,7 @@ function SearchPage() {
                 );
                 if (selectedLocal) {
                   // Redirige a la página de detalles del local con el ID del local seleccionado                  
-                  window.location.href = `/dashboard/resto/${selectedLocal.id}`;
+                  window.location.href = `/resto/${selectedLocal.id}`;
                 }
               }}
             />
@@ -137,7 +137,7 @@ function SearchPage() {
               slides={locales.map((local) => ({
                 text: local.nombre,
                 image: local.imagen, // Agrega la URL de la imagen del local
-                link: `/dashboard/resto/${local.id}`, // Establece el enlace con el ID del local
+                link: `/resto/${local.id}`, // Establece el enlace con el ID del local
               }))}
             />
           </Grid>
@@ -164,7 +164,7 @@ function SearchPage() {
               slides={categorias.map((categoria) => ({
                 text: categoria.nombre,
                 image: categoria.imagen, // Agrega la URL de la imagen de la categoría
-                link: `/dashboard/category/${categoria.id}`, // Establece el enlace con el ID del local
+                link: `/category/${categoria.id}`, // Establece el enlace con el ID del local
               }))}
             />
           </Grid>

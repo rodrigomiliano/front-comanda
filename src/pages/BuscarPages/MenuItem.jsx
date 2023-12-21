@@ -1,3 +1,5 @@
+import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -5,13 +7,17 @@ import {
   Button,
   makeStyles,
 } from "@material-ui/core";
-
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Image from "material-ui-image";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 
 const useStyles = makeStyles((theme) => ({
+  contImg: {
+    width: "100%",
+    //height: "220px",
+    overflow: "hidden",
+    //backgroundImage: 'url("../src/assets/images/fideos-estilo-singapur.jpg")',
+    backgroundPosition: "center",
+    backgroundSize: "cover", // Asegura que la imagen se ajuste al contenedor
+  },
   flexTop: {
     marginTop: "15px",
   },
@@ -24,45 +30,67 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MenuItem() {
-  const [itemMenu, setItemMenu] = useState(null);
+  const { id } = useParams();
+  const [producto, setProducto] = useState([]);
   const classes = useStyles();
+  
+  
+
+  useEffect(() => {
+    console.log("ID del producto:", id);
+    fetch(`http://localhost:8080/comanda/producto/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProducto(data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos:", error);
+      });
+  }, [id]);
+
   return (
     <>
+      <Container disableGutters={true}>
+        <div className={classes.contImg}>
+          {producto &&
+            producto.imagen && ( // Verifica si hay datos y una URL de imagen
+              <img
+                src={producto.imagen}
+                alt="Local"
+                style={{ width: "100%" }}
+              />
+            )}
+        </div>
+      </Container>
+
       <Container maxWidth="sm">
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
-          <LocalOfferIcon fontSize="small"></LocalOfferIcon>
-          <Typography component="h1" variant="h6">
-            Bodegón
-          </Typography>
-        </Grid>
-
-        <Grid container justifyContent="center" className={classes.flexTop}>
           <Grid item xs={12}>
-            <Image src="/img/fideos-estilo-singapur.jpg" />
+            {producto && producto.nombre && (
+              <Typography component="h2" variant="h5">
+                {producto.nombre}
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
           <Grid item xs={12}>
-            <Typography component="h2" variant="h5">
-              Sandwich de Lomito Completo
-            </Typography>
+            {producto && producto.descripcion && (
+              <Typography component="h3" variant="subtitle1">
+                {producto.descripcion}
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
           <Grid item xs={12}>
-            <Typography component="h3" variant="subtitle1">
-              Con jamón, queso, tomate, lechuga y huevo frito.
-            </Typography>
-          </Grid>
-        </Grid>
-
-        <Grid container alignContent="flex-end" className={classes.flexMargin}>
-          <Grid item xs={12}>
-            <Typography component="h4" variant="h6">
-              $1800
-            </Typography>
+            {producto && producto.precio && (
+              <Typography component="h4" variant="h6">
+                ${producto.precio}
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
@@ -72,7 +100,7 @@ function MenuItem() {
               variant="contained"
               color="primary"
               component={Link}
-              to="/dashboard/reservar-mesa-a"
+              to="/reservar-mesa-a"
             >
               RESERVAR MESA
             </Button>
