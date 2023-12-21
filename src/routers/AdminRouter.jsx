@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { Container } from "@material-ui/core";
 
-import AppBar from "../Components/AppBar";
+import AppBar from "../components/AppBar";
 
 import BienvenidaIngresoPage from "../pages/Admin/BienvenidaIngresoPage";
 import BienvenidaIngresoPageError from "../pages/Admin/BienvenidaIngresoPageError";

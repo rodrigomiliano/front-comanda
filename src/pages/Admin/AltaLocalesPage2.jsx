@@ -237,9 +237,16 @@ function AltaLocalesPage2() {
         </Grid>
       </Grid>
 
-      {/*Este de carga de imágen no funciona, podría hacerlo funcionar luego*/}
-      {/*<Grid container justifyContent="center" className={classes.flexMargin}>
-        <Grid item xl={6}>          
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item xl={6}>
+          {/*<TextField
+            label="Imagen"         
+            variant="outlined"
+            value={formData.imagen}
+            onChange={(e) =>
+              setFormData({ ...formData, imagen: e.target.value })
+            }
+          />*/}
           <input
             accept="image/*"
             style={{ display: "none" }}
@@ -252,21 +259,6 @@ function AltaLocalesPage2() {
               {imageName ? imageName : "Cargar Imagen"}
             </Button>
           </label>
-        </Grid>
-            </Grid>*/}
-
-      <Grid container justifyContent="center" className={classes.flexMargin}>
-        <Grid item xl={6}>
-          <TextField
-            label="Imagen"
-            //titulo="Precio"
-            //texto="Precio del producto"
-            variant="outlined"
-            value={formData.imagen}
-            onChange={(e) =>
-              setFormData({ ...formData, imagen: e.target.value })
-            }
-          />
         </Grid>
       </Grid>
 
