@@ -113,8 +113,10 @@ function EditarUsuariosPage() {
             fetch("http://localhost:8080/comanda/rol")
               .then((responseRoles) => responseRoles.json())
               .then((dataRoles) => {
-                console.log("dataroles ", dataRoles);
-                const userRol = dataRoles.find((x) => x.nombre == data.rol);
+                // console.log("dataroles ", dataRoles);
+                const userRol = dataRoles.find(
+                  (x) => x.nombre == data.rol.nombre
+                );
                 setRolId(userRol.id);
               });
           } else {
@@ -128,12 +130,13 @@ function EditarUsuariosPage() {
   }, [id]);
 
   const handleGuardar = () => {
-    fetch(`http://localhost:8080/comanda/usuario/${id}`, {
-      method: "PUT",
+    fetch(`http://localhost:8080/comanda/usuario/`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        id: id,
         usuario: usuario,
         nombre: nombre,
         apellido: apellido,
@@ -145,29 +148,26 @@ function EditarUsuariosPage() {
       }),
     })
       .then((response) => {
-        if (!response.ok) {
-          console.error("Error al actualizar el usuario:", response.status);
-          window.location.href = "/admin/editar-usuarios-error-1";
-          throw new Error("Error al actualizar el usuario");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Datos actualizados:", data);
-        // Obtener la lista actualizada de usuarios después de editar
-        fetch("http://localhost:8080/comanda/usuario")
-          .then((response) => response.json())
-          .then((data) => {
-            setUser(data); // Actualizar el estado de usuarios
-            // Redirigir a la página de lista de usuarios después de editar
-            window.location.href = "/admin/editar-usuarios-2";
-          })
-          .catch((error) => {
-            //console.error("Error al obtener usuarios después de editar:", error);
-          });
+        console.log("response", response);
+        response.json();
+
+        // .then((data) => {
+        //   console.log("Datos actualizados:", data);
+        //   fetch("http://localhost:8080/comanda/usuario")
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //       setUser(data); // Actualizar el estado de usuarios
+        //       window.location.href = "/admin/editar-usuarios-2";
+        //     })
+        //     .catch((error) => {
+        //       console.error(
+        //         "Error al obtener usuarios después de editar:",
+        //         error
+        //       );
+        //     });
       })
       .catch((error) => {
-        //console.error("Error al actualizar el usuario:", error);
+        console.error("Error al actualizar el usuario:", error);
       });
   };
 
@@ -308,18 +308,19 @@ function EditarUsuariosPage() {
           </Grid>
         </Grid>
       </Grid>
-
-      <Grid item xl={6}>
-        <label htmlFor="contrasena">
-          <TextField
-            id="contrasena"
-            label="Contrasena"
-            variant="outlined"
-            fullWidth
-            value={contrasena}
-            onChange={(e) => setContrasena(e.target.value)}
-          />
-        </label>
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item xl={6}>
+          <label htmlFor="contrasena">
+            <TextField
+              id="contrasena"
+              label="Contrasena"
+              variant="outlined"
+              fullWidth
+              value={contrasena}
+              onChange={(e) => setContrasena(e.target.value)}
+            />
+          </label>
+        </Grid>
       </Grid>
 
       <Grid container justifyContent="center" className={classes.flexMargin}>

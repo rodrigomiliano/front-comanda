@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
@@ -41,10 +41,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AppBar() {
+function AppBar(props) {
+  const { user } = props;
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [loggedUser, setloggedUser] = useState({});
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -54,11 +56,10 @@ function AppBar() {
     setOpen(false);
   };
 
-  const getUser = () => {
-    debugger;
-    const user = localStorage.getKey("user");
-    return user != null;
-  };
+  useEffect(() => {
+    setloggedUser(JSON.parse(localStorage.getItem("user")));
+  }, [open]);
+
   return (
     <>
       <CssBaseline />
@@ -122,6 +123,7 @@ function AppBar() {
         </List> */}
 
         <List component="nav">
+          <div>{user}</div>
           <ListItem button component={Link} to="/admin/ver-inicio">
             <ListItemIcon>
               <HomeIcon />
@@ -129,63 +131,62 @@ function AppBar() {
             <ListItemText primary="Inicio" />
           </ListItem>
 
-          <ListItem
-            button
-            component={Link}
-            to="/admin/alta-locales"
-            //hidden={getUser}
-          >
-            <ListItemIcon>
-              <BusinessIcon />
-            </ListItemIcon>
-            <ListItemText primary="Locales" />
-          </ListItem>
-
-          <ListItem button component={Link} to="/admin/alta-usuarios">
-            <ListItemIcon>
-              <PeopleIcon />
-            </ListItemIcon>
-            <ListItemText primary="Usuarios" />
-          </ListItem>
-
-          <ListItem button component={Link} to="/admin/gestion-ordenes">
-            <ListItemIcon>
-              <FreeBreakfastIcon />
-            </ListItemIcon>
-            <ListItemText primary="Gestión de órdenes" />
-          </ListItem>
-
-          <ListItem button component={Link} to="/admin/alta-mesas">
-            <ListItemIcon>
-              <LocalDiningIcon />
-            </ListItemIcon>
-            <ListItemText primary="Mesas" />
-          </ListItem>
-
-          <ListItem button component={Link} to="/admin/alta-productos">
+          <ListItem button component={Link} to="/admin/alta-locales">
             <ListItemIcon>
               <RoomServiceIcon />
             </ListItemIcon>
             <ListItemText primary="Productos" />
           </ListItem>
+          {loggedUser.rol?.nombre == "ADMIN" ? (
+            <>
+              <ListItem button component={Link} to="/admin/alta-locales">
+                <ListItemIcon>
+                  <BusinessIcon />
+                </ListItemIcon>
+                <ListItemText primary="Locales" />
+              </ListItem>
 
-          <ListItem
-            button
-            component={Link}
-            to="/admin/estadisticas-facturacion"
-          >
-            <ListItemIcon>
-              <AttachMoneyIcon />
-            </ListItemIcon>
-            <ListItemText primary="Estadísticas y facturación" />
-          </ListItem>
+              <ListItem button component={Link} to="/admin/alta-usuarios">
+                <ListItemIcon>
+                  <PeopleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Usuarios" />
+              </ListItem>
 
-          <ListItem button component={Link} to="/admin/alta-categorias">
-            <ListItemIcon>
-              <LocalOfferIcon />
-            </ListItemIcon>
-            <ListItemText primary="Categorías populares" />
-          </ListItem>
+              <ListItem button component={Link} to="/admin/gestion-ordenes">
+                <ListItemIcon>
+                  <FreeBreakfastIcon />
+                </ListItemIcon>
+                <ListItemText primary="Gestión de órdenes" />
+              </ListItem>
+
+              <ListItem button component={Link} to="/admin/alta-mesas">
+                <ListItemIcon>
+                  <LocalDiningIcon />
+                </ListItemIcon>
+                <ListItemText primary="Mesas" />
+              </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to="/admin/estadisticas-facturacion"
+              >
+                <ListItemIcon>
+                  <AttachMoneyIcon />
+                </ListItemIcon>
+                <ListItemText primary="Estadísticas y facturación" />
+              </ListItem>
+
+              <ListItem button component={Link} to="/admin/alta-categorias">
+                <ListItemIcon>
+                  <LocalOfferIcon />
+                </ListItemIcon>
+                <ListItemText primary="Categorías populares" />
+              </ListItem>
+            </>
+          ) : (
+            ""
+          )}
         </List>
       </Drawer>
     </>

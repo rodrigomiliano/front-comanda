@@ -36,7 +36,7 @@ function MenuItems() {
   const productosDelLocal = productos.filter(
     (producto) => producto.local.id === parseInt(id)
   );
-  const classes = useStyles();
+  //const classes = useStyles();
   // Agregar un estado para la categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState("");
   // Obtener categorías únicas de los productos del local seleccionado

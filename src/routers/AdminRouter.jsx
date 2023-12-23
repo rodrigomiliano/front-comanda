@@ -63,19 +63,40 @@ const AdminRouter = () => {
     <Container maxWidth="xl" disableGutters={true}>
       <Routes>
         <Route path="/" element={<BienvenidaIngresoPage />} />
-        <Route path="bienvenida-ingreso-error" element={<BienvenidaIngresoPageError />} />
-          <Route path="restablecer-pass" element={<RestablecerPassPage />} />
-          <Route path="restablecer-pass-2" element={<RestablecerPassPage2 />} />
-          <Route path="restablecer-pass-error-1" element={<RestablecerPassPageError />} />
-          <Route path="restablecer-pass-error-2" element={<RestablecerPassPageError2 />} />
-          <Route path="mail-restablecer" element={<MailRestablecerPage />} />
-          <Route path="mail-restablecer-error-1" element={<MailRestablecerPageError1 />} />
-          <Route path="mail-restablecer-error-2" element={<MailRestablecerPageError2 />} />
-          <Route path="mail-restablecer-2" element={<MailRestablecerPage2 />} />
-          <Route path="registrar-usuario" element={<RegistrarUsuarioPage />} />
-          <Route path="registrar-usuario-2" element={<RegistrarUsuarioPage2 />} />
-          <Route path="registrar-usuario-error-1" element={<RegistrarUsuarioErrorPage />} />
-          <Route path="registrar-usuario-error-2" element={<RegistrarUsuarioErrorPage2 />} />
+        <Route
+          path="bienvenida-ingreso-error"
+          element={<BienvenidaIngresoPageError />}
+        />
+        <Route path="restablecer-pass" element={<RestablecerPassPage />} />
+        <Route path="restablecer-pass-2" element={<RestablecerPassPage2 />} />
+        <Route
+          path="restablecer-pass-error-1"
+          element={<RestablecerPassPageError />}
+        />
+        <Route
+          path="restablecer-pass-error-2"
+          element={<RestablecerPassPageError2 />}
+        />
+        <Route path="mail-restablecer" element={<MailRestablecerPage />} />
+        <Route
+          path="mail-restablecer-error-1"
+          element={<MailRestablecerPageError1 />}
+        />
+        <Route
+          path="mail-restablecer-error-2"
+          element={<MailRestablecerPageError2 />}
+        />
+        <Route path="mail-restablecer-2" element={<MailRestablecerPage2 />} />
+        <Route path="registrar-usuario" element={<RegistrarUsuarioPage />} />
+        <Route path="registrar-usuario-2" element={<RegistrarUsuarioPage2 />} />
+        <Route
+          path="registrar-usuario-error-1"
+          element={<RegistrarUsuarioErrorPage />}
+        />
+        <Route
+          path="registrar-usuario-error-2"
+          element={<RegistrarUsuarioErrorPage2 />}
+        />
         <Route path="/*" element={<WithAppBar />} />
       </Routes>
     </Container>
@@ -88,19 +109,25 @@ const WithAppBar = ({ children }) => {
       <AppBar />
       {children}
       <Container>
-        <Routes>          
+        <Routes>
           <Route path="ver-inicio" element={<VerInicioPage />} />
           <Route path="alta-locales" element={<AltaLocalesPage />} />
           <Route path="alta-locales-2" element={<AltaLocalesPage2 />} />
-          <Route path="alta-locales-2-error-1" element={<AltaLocalesPage2Error1 />} />
-          <Route path="alta-locales-3" element={<AltaLocalesPage3 />} />          
+          <Route
+            path="alta-locales-2-error-1"
+            element={<AltaLocalesPage2Error1 />}
+          />
+          <Route path="alta-locales-3" element={<AltaLocalesPage3 />} />
           <Route path="baja-locales" element={<BajaLocalesPage />} />
           <Route path="editar-locales/:id" element={<EditarLocalesPage />} />
           <Route path="editar-locales-2" element={<EditarLocalesPage2 />} />
-          <Route path="editar-locales-3" element={<EditarLocalesPage3 />} />          
+          <Route path="editar-locales-3" element={<EditarLocalesPage3 />} />
           <Route path="alta-usuarios" element={<AltaUsuariosPage />} />
           <Route path="alta-usuarios-2" element={<AltaUsuariosPage2 />} />
-          <Route path="alta-usuarios-2-error-1" element={<AltaUsuariosPage2Error1 />} />
+          <Route
+            path="alta-usuarios-2-error-1"
+            element={<AltaUsuariosPage2Error1 />}
+          />
           <Route path="alta-usuarios-3" element={<AltaUsuariosPage3 />} />
           <Route path="editar-usuarios/:id" element={<EditarUsuariosPage />} />
           <Route path="editar-usuarios-2" element={<EditarUsuariosPage2 />} />
@@ -115,20 +142,41 @@ const WithAppBar = ({ children }) => {
           <Route path="baja-mesas" element={<BajaMesasPage />} />
           <Route path="alta-productos" element={<AltaProductosPage />} />
           <Route path="alta-productos-2" element={<AltaProductosPage2 />} />
-          <Route path="alta-productos-2-error-1" element={<AltaProductosPage2Error1 />} />
+          <Route
+            path="alta-productos-2-error-1"
+            element={<AltaProductosPage2Error1 />}
+          />
           <Route path="alta-productos-3" element={<AltaProductosPage3 />} />
-          <Route path="editar-productos/:id" element={<EditarProductosPage />} />
+          <Route
+            path="editar-productos/:id"
+            element={<EditarProductosPage />}
+          />
           <Route path="editar-productos-2" element={<EditarProductosPage2 />} />
           <Route path="baja-productos" element={<BajaProductosPage />} />
-          <Route path="estadisticas-facturacion" element={<EstadisticasFacturacionPage />} />
+          <Route
+            path="estadisticas-facturacion"
+            element={<EstadisticasFacturacionPage />}
+          />
           <Route path="alta-categorias" element={<AltaCategoriasPage />} />
           <Route path="alta-categorias-2" element={<AltaCategoriasPage2 />} />
-          <Route path="alta-categorias-2-error-1" element={<AltaCategoriasPage2Error1 />} />
+          <Route
+            path="alta-categorias-2-error-1"
+            element={<AltaCategoriasPage2Error1 />}
+          />
           <Route path="alta-categorias-3" element={<AltaCategoriasPage3 />} />
           <Route path="baja-categorias" element={<BajaCategoriasPage />} />
-          <Route path="editar-categorias/:id" element={<EditarCategoriasPage />} />
-          <Route path="editar-categorias-error-1" element={<EditarCategoriasPageError1 />} />
-          <Route path="editar-categorias-2" element={<EditarCategoriasPage2 />} />          
+          <Route
+            path="editar-categorias/:id"
+            element={<EditarCategoriasPage />}
+          />
+          <Route
+            path="editar-categorias-error-1"
+            element={<EditarCategoriasPageError1 />}
+          />
+          <Route
+            path="editar-categorias-2"
+            element={<EditarCategoriasPage2 />}
+          />
         </Routes>
       </Container>
     </Container>

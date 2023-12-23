@@ -8,6 +8,7 @@ import {
   TextField,
   makeStyles,
 } from "@material-ui/core";
+import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import LayoutTextFields from "../../components/TextField";
@@ -23,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 
 function BienvenidaIngresoPage() {
   const classes = useStyles();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -41,21 +43,13 @@ function BienvenidaIngresoPage() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        //window.location.href = "/admin/editar-usuarios-error-1";
-        fetch("http://localhost:8080/comanda/usuario")
-          .then((response) => response.json())
-          .then((data) => {
-            localStorage.setItem("user", data);
-            window.location.href = "/admin/editar-usuarios-2";
-          })
-          .catch((error) => {
-            debugger;
-            console.error("Error al login", error);
-          });
-
-        return response.json();
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("editar-usuarios-2");
+      })
+      .catch((error) => {
+        debugger;
+        console.error("Error al login", error);
       });
-    // Obtener la lista actualizada de usuarios después de editar
   };
 
   return (
