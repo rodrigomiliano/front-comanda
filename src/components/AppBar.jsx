@@ -133,7 +133,7 @@ function AppBar() {
             button
             component={Link}
             to="/admin/alta-locales"
-            hidden={getUser}
+            //hidden={getUser}
           >
             <ListItemIcon>
               <BusinessIcon />
