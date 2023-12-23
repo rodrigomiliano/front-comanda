@@ -13,6 +13,7 @@ import {
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import { Link } from "react-router-dom";
 import MultipleSelect from "../../components/MultipleSelect";
+import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -25,42 +26,51 @@ const useStyles = makeStyles((theme) => ({
 
 function AltaCategoriasPage2() {
   const classes = useStyles();
-  const [nombre, setNombre] = useState(""); // Estado para almacenar el nombre de la categoría
+  const [formData, setFormData] = useState({
+    nombre: "",
+    imagen: "",
+  });
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+  const [showWarning, setShowWarning] = useState(false);
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({ ...formData, imagen: imageUrl });
+  };
 
   useEffect(() => {
-    setBotonDeshabilitado(!nombre || nombre.trim() === "");
-  }, [nombre]);
-
-  // Manejar cambios en el campo de entrada de nombre
-  const handleNombreChange = (e) => {
-    setNombre(e.target.value);
-  };
+    const isFormDataValid = formData.nombre.trim();
+    setBotonDeshabilitado(!isFormDataValid || showWarning);
+  }, [formData, showWarning]);
 
   // Función para enviar los datos al servidor
   const handleSubmit = async () => {
     if (botonDeshabilitado) {
       console.error("El nombre no puede estar vacío");
       return;
-    }   
-
+    }
     // Configura la solicitud POST
-    const response = await fetch("http://localhost:8080/comanda/categoria", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ nombre }), // Envía el nombre en formato JSON
-    });
+    try {
+      const response = await fetch("http://localhost:8080/comanda/categoria", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData), // Envía el nombre en formato JSON
+      });
 
-    if (response.ok) {
-      console.log("Categoría agregada correctamente");
-      // Redireccionar a la página siguiente si se agrega correctamente
-      window.location.href = "/admin/alta-categorias-3";
-    } else {
-      console.error("Error al agregar la categoría");
-      // Mostrar la página de error si falla la adición
-      window.location.href = "/admin/alta-categorias-2-error-1";
+      if (response.ok) {
+        console.log("Categoría agregada correctamente");
+        // Redireccionar a la página siguiente si se agrega correctamente
+        window.location.href = "/admin/alta-categorias-3";
+      } else {
+        console.error("Error al agregar la categoría");
+        // Mostrar la página de error si falla la adición
+        window.location.href = "/admin/alta-categorias-2-error-1";
+      }
+    } catch (error) {
+      console.error("Error al agregar categoria:", error);
+      // Puedes mostrar el error en un componente, por ejemplo, si es relevante
+      // setErrorMessage("Error al agregar categoria: " + error.message);
     }
   };
 
@@ -84,7 +94,7 @@ function AltaCategoriasPage2() {
               Categorías
             </Typography>
           </Box>
-        </Grid>        
+        </Grid>
       </Grid>
 
       <Divider />
@@ -99,20 +109,20 @@ function AltaCategoriasPage2() {
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item>
-          <TextField /*TODO: con LayoutTextFields no funciona*/
+          <TextField
             label="Nombre"
-            /*titulo="Nombre"*/
-            /*texto="Ingrese el nombre de la categoría"*/
             variant="outlined"
-            value={nombre}
-            onChange={handleNombreChange}
+            value={formData.nombre}
+            onChange={(e) => {
+              setFormData({ ...formData, nombre: e.target.value });
+            }}
           />
         </Grid>
       </Grid>
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item>
-          <MultipleSelect></MultipleSelect>
+          <UploadWidget onImageUpload={handleImageUpload} />
         </Grid>
       </Grid>
 

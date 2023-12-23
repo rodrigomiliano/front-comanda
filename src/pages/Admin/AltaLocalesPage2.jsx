@@ -13,6 +13,7 @@ import {
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import { Link } from "react-router-dom";
 import MultipleSelect from "../../components/MultipleSelect";
+import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -38,6 +39,10 @@ function AltaLocalesPage2() {
   const [showCPWarning, setShowCPWarning] = useState(false);
   const [showTelWarning, setShowTelWarning] = useState(false);
   const [imageName, setImageName] = useState("");
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({ ...formData, imagen: imageUrl });
+  };
 
   useEffect(() => {
     const isFormDataValid =
@@ -239,26 +244,7 @@ function AltaLocalesPage2() {
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
-          {/*<TextField
-            label="Imagen"         
-            variant="outlined"
-            value={formData.imagen}
-            onChange={(e) =>
-              setFormData({ ...formData, imagen: e.target.value })
-            }
-          />*/}
-          <input
-            accept="image/*"
-            style={{ display: "none" }}
-            id="raised-button-file"
-            type="file"
-            onChange={handleImageChange}
-          />
-          <label htmlFor="raised-button-file">
-            <Button variant="contained" color="primary" component="span">
-              {imageName ? imageName : "Cargar Imagen"}
-            </Button>
-          </label>
+          <UploadWidget onImageUpload={handleImageUpload} />
         </Grid>
       </Grid>
 

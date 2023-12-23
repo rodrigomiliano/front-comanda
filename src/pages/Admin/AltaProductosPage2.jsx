@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -20,6 +19,8 @@ import {
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import { Link } from "react-router-dom";
 import MultipleSelect from "../../components/MultipleSelect";
+//import cloudinaryImage from "../../components/cloudinary/cloudinaryimage";
+import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -44,7 +45,11 @@ function AltaProductosPage2() {
   });
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
-  
+
+  const handleImageUpload = (imageUrl) => {
+    setFormData({ ...formData, imagen: imageUrl });
+  };
+
   const handlePriceChange = (value) => {
     const isNumber = !isNaN(parseFloat(value)) && isFinite(value);
     const isFormDataValid =
@@ -68,6 +73,7 @@ function AltaProductosPage2() {
     setBotonDeshabilitado(!isFormDataValid || showWarning);
   }, [formData, showWarning]);
 
+  // Código para obtener categorías...
   const obtenerCategorias = async () => {
     try {
       const response = await fetch("http://localhost:8080/comanda/categoria");
@@ -82,10 +88,7 @@ function AltaProductosPage2() {
     }
   };
 
-  useEffect(() => {
-    obtenerCategorias();
-  }, []);
-
+  // Código para obtener locales...
   const obtenerLocales = async () => {
     try {
       const response = await fetch("http://localhost:8080/comanda/local");
@@ -101,6 +104,7 @@ function AltaProductosPage2() {
   };
 
   useEffect(() => {
+    obtenerCategorias();
     obtenerLocales();
   }, []);
 
@@ -109,13 +113,14 @@ function AltaProductosPage2() {
       console.error("El nombre no puede estar vacío");
       return;
     }
-
+    console.log(formData);
     try {
       const response = await fetch("http://localhost:8080/comanda/producto", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+
         body: JSON.stringify(formData),
       });
 
@@ -135,7 +140,7 @@ function AltaProductosPage2() {
       // setErrorMessage("Error al agregar el producto: " + error.message);
     }
   };
-  
+
   return (
     <Container maxWidth="xl">
       <Grid container justifyContent="center" className={classes.flexTop}>
@@ -174,8 +179,6 @@ function AltaProductosPage2() {
         <Grid item xl={6}>
           <TextField
             label="Nombre"
-            /*titulo="Nombre"*/
-            /*texto="Ingrese el nombre del producto"*/
             variant="outlined"
             value={formData.nombre}
             onChange={(e) =>
@@ -218,8 +221,6 @@ function AltaProductosPage2() {
         <Grid item xl={6}>
           <TextField
             label="Descripción"
-            //titulo="Descripción"
-            //texto="Ingrese la descripción del producto"
             variant="outlined"
             value={formData.descripcion}
             onChange={(e) =>
@@ -233,8 +234,6 @@ function AltaProductosPage2() {
         <Grid item xl={6}>
           <TextField
             label="Precio"
-            //titulo="Precio"
-            //texto="Precio del producto"
             variant="outlined"
             value={formData.precio}
             /*onChange={(e) =>
@@ -256,25 +255,14 @@ function AltaProductosPage2() {
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
-          <TextField
-            label="Imagen"
-            //titulo="Precio"
-            //texto="Precio del producto"
-            variant="outlined"
-            value={formData.imagen}
-            onChange={(e) =>
-              setFormData({ ...formData, imagen: e.target.value })
-            }
-          />
+          <UploadWidget onImageUpload={handleImageUpload} />
         </Grid>
       </Grid>
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-helper-label">
-              Local
-            </InputLabel>
+            <InputLabel id="demo-simple-select-helper-label">Local</InputLabel>
             <Select
               labelId="demo-simple-select-helper-label"
               id="demo-simple-select-helper"

@@ -18,6 +18,7 @@ import {
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import AlertComanda from "../../components/AlertComanda";
+import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -43,6 +44,10 @@ function EditarProductosPage() {
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [precioValido, setPrecioValido] = useState(true);
   
+  const handleImageUpload = (imageUrl) => {
+    setImagen(imageUrl); // Actualiza el estado de la imagen con la URL cargada
+  };
+
   // Función para obtener las categorías
   const obtenerCategorias = async () => {
     try {
@@ -322,16 +327,7 @@ function EditarProductosPage() {
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
-          <label htmlFor="imagen">
-            <TextField
-              id="imagen"
-              label="Imagen URL"
-              variant="outlined"
-              fullWidth
-              value={imagen}
-              onChange={(e) => setImagen(e.target.value)}
-            />
-          </label>
+          <UploadWidget onImageUpload={handleImageUpload} currentImage={imagen} />
         </Grid>
       </Grid>
 
