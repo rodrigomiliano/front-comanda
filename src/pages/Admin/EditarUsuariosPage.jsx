@@ -53,6 +53,17 @@ function EditarUsuariosPage() {
   const [showTelefonoWarning, setShowTelefonoWarning] = useState(false);
   const [showEmailWarning, setShowEmailWarning] = useState(false);
 
+  useEffect(() => {
+    fetch(`http://localhost:8080/comanda/rol/${rolId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setRol(data);
+      })
+      .catch((error) => {
+        //console.error("Error al obtener rol:", error);
+      });
+  }, [rolId]);
+
   // Función para obtener las categorías
   const obtenerRoles = async () => {
     try {
@@ -69,44 +80,34 @@ function EditarUsuariosPage() {
   };
 
   useEffect(() => {
-    const camposVacios =
-      !nombre ||
-      !apellido ||
-      !usuario ||
-      !email ||
-      !telefono ||
-      !contrasena ||
-      !rolId;
-    const isDniEmpty = !dni || dni.toString().trim() === ""; // Verifica si el DNI está vacío o es nulo
+    obtenerRoles();
+  }, []);
+   
+  useEffect(() => {
+    const camposVacios = !nombre || !apellido || !usuario || !email || !telefono || !contrasena || !rolId;
+    const isDniEmpty = !dni || dni.toString().trim() === ''; // Verifica si el DNI está vacío o es nulo
     const isDniValid = !isNaN(dni) && Number.isInteger(+dni); // Verifica si el DNI es un número entero
     const isTelefonoValid = /^\d+$/.test(telefono); // Verifica si el teléfono contiene solo números
-    const isEmailValid = email.includes("@"); // Verifica si el correo electrónico contiene el símbolo @
-
-    setBotonDeshabilitado(
-      camposVacios ||
-        isDniEmpty ||
-        !isDniValid ||
-        !isTelefonoValid ||
-        !isEmailValid
-    );
+    const isEmailValid = email.includes('@'); // Verifica si el correo electrónico contiene el símbolo @
+  
+    setBotonDeshabilitado(camposVacios || isDniEmpty || !isDniValid || !isTelefonoValid || !isEmailValid);
     setShowDniWarning(isDniEmpty || !isDniValid);
     setShowTelefonoWarning(!isTelefonoValid);
     setShowEmailWarning(!isEmailValid);
   }, [nombre, apellido, usuario, dni, email, telefono, contrasena, rolId]);
-
+    
   useEffect(() => {
-    obtenerRoles().then((x) => {
-      fetch(`http://localhost:8080/comanda/usuario/${id}`)
-        .then((response) => response.json())
-        .then((data) => {
-          setUsuario(data.usuario);
-          setNombre(data.nombre);
-          setApellido(data.apellido);
-          setDni(data.dni);
-          setEmail(data.email);
-          setTelefono(data.telefono);
-          setContrasena(data.contrasena);
-          setUser(data);
+    fetch(`http://localhost:8080/comanda/usuario/${id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setUsuario(data.usuario);
+        setNombre(data.nombre);
+        setApellido(data.apellido);
+        setDni(data.dni);
+        setEmail(data.email);
+        setTelefono(data.telefono);
+        setContrasena(data.contrasena);
+        setUser(data);
 
           // Asegúrate de manejar correctamente la categoría si está presente en los datos del producto
           if (data.rol) {

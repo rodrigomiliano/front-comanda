@@ -11,7 +11,6 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import { Link } from "react-router-dom";
-import LayoutTextFields from "../../components/TextField";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -44,7 +43,7 @@ function BienvenidaIngresoPage() {
       .then((data) => {
         console.log(data);
         localStorage.setItem("user", JSON.stringify(data));
-        navigate("editar-usuarios-2");
+        navigate("ver-inicio");
       })
       .catch((error) => {
         debugger;

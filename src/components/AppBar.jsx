@@ -131,7 +131,7 @@ function AppBar(props) {
             <ListItemText primary="Inicio" />
           </ListItem>
 
-          <ListItem button component={Link} to="/admin/alta-locales">
+          <ListItem button component={Link} to="/admin/alta-productos">
             <ListItemIcon>
               <RoomServiceIcon />
             </ListItemIcon>
