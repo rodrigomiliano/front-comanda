@@ -31,7 +31,6 @@ function BienvenidaIngresoPage() {
   });
 
   const handleLogin = () => {
-    debugger;
     fetch(`http://localhost:8080/comanda/login`, {
       method: "POST",
       headers: {
@@ -46,7 +45,6 @@ function BienvenidaIngresoPage() {
         navigate("ver-inicio");
       })
       .catch((error) => {
-        debugger;
         console.error("Error al login", error);
       });
   };

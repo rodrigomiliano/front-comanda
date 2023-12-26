@@ -26,40 +26,48 @@ const useStyles = makeStyles((theme) => ({
 function AltaProductosPage() {
   const [productos, setProductos] = useState([]);
   const classes = useStyles();
+  const [loggedUser, setloggedUser] = useState({});
 
   useEffect(() => {
-    fetch("http://localhost:8080/comanda/producto")
-    .then((response) => response.json())
-    .then((data) => {
-      setProductos(data);
+    setloggedUser(JSON.parse(localStorage.getItem("user")));
+    fetch("http://localhost:8080/comanda/buscarproducto", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(loggedUser), // Envía el nombre en formato JSON
     })
-    .catch((error) => {
-      console.error("Error al obtener productos desde el servidor", error);
-    });
-}, []);
+      .then((response) => response.json())
+      .then((data) => {
+        setProductos(data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener productos desde el servidor", error);
+      });
+  }, [open]);
 
-const handleEdit = (id) => {
-  // Realiza la redirección con el ID
-  window.location.href = `/admin/editar-productos/${id}`;
-};
+  const handleEdit = (id) => {
+    // Realiza la redirección con el ID
+    window.location.href = `/admin/editar-productos/${id}`;
+  };
 
-const handleDelete = (id) => {
-  console.log("ID a eliminar:", id); // Verifica que el ID se imprima correctamente
-  fetch(`http://localhost:8080/comanda/producto/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({}), // No parece que necesites enviar algún cuerpo en la solicitud DELETE
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Datos actualizados:", data);      
+  const handleDelete = (id) => {
+    console.log("ID a eliminar:", id); // Verifica que el ID se imprima correctamente
+    fetch(`http://localhost:8080/comanda/producto/${id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}), // No parece que necesites enviar algún cuerpo en la solicitud DELETE
     })
-    .catch((error) => {
-      console.error("Error al eliminar el producto:", error);
-    });
-};
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Datos actualizados:", data);
+      })
+      .catch((error) => {
+        console.error("Error al eliminar el producto:", error);
+      });
+  };
 
   return (
     <Container maxWidth="xl">
