@@ -7,7 +7,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
-import SearchBar from "../../components/SearchBar";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import StoreIcon from "@material-ui/icons/Store";
 import CarouselLink from "../../components/CarouselLink";
@@ -24,26 +23,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function SearchPage() {
-  /*const [itemsMenu, setItemsMenu] = useState(null);*/
   const [searchTerm, setSearchTerm] = useState("");
   const [locales, setLocales] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [filteredLocales, setFilteredLocales] = useState([]);
   const [filteredCategorias, setFilteredCategorias] = useState([]);
   const classes = useStyles();
-
-  /*useEffect(() => {
-    fetch("http://localhost:8000/itemsMenu")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        setItemsMenu(data);
-      })
-      .catch((err) => {
-        console.error("Instalar json-server");
-      });
-  }, []);*/
 
   useEffect(() => {
     // Llamada a la API para obtener locales y categorías
@@ -107,7 +92,7 @@ function SearchPage() {
                   (local) => local.nombre === value
                 );
                 if (selectedLocal) {
-                  // Redirige a la página de detalles del local con el ID del local seleccionado                  
+                  // Redirige a la página de detalles del local con el ID del local seleccionado
                   window.location.href = `/resto/${selectedLocal.id}`;
                 }
               }}
@@ -150,15 +135,8 @@ function SearchPage() {
           </Typography>
         </Grid>
 
-        {/*Esta no va, se usa la de abajo*/}
-        {/*<Grid container justifyContent="center" className={classes.flexTop}>
-          <Grid item xs={12}>
-            <CarouselLink slides={category} />
-          </Grid>
-        </Grid>*/}
-
         <Grid container justifyContent="center" className={classes.flexTop}>
-        <Grid item xs={12}>
+          <Grid item xs={12}>
             {/* Utiliza el componente Carousel para mostrar los nombres de las categorías */}
             <CarouselLink
               slides={categorias.map((categoria) => ({
@@ -173,15 +151,5 @@ function SearchPage() {
     </>
   );
 }
-
-/*const category = [
-  { text: "Pastas", link: "/dashboard/category" },
-  { text: "Parrilla", link: "/dashboard/category" },
-  { text: "Ensaladas", link: "/dashboard/category" },
-  { text: "Entradas", link: "/dashboard/category" },
-  { text: "Postres", link: "/dashboard/category" },
-  { text: "Bebidas", link: "/dashboard/category" },
-  { text: "Vinos", link: "/dashboard/category" },
-];*/
 
 export default SearchPage;

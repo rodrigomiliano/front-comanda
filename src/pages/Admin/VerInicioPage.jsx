@@ -1,13 +1,10 @@
 import {
   Container,
   Typography,
-  Grid,  
+  Grid,
   Divider,
   makeStyles,
 } from "@material-ui/core";
-
-import { Link } from "react-router-dom";
-
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {

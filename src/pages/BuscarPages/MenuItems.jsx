@@ -12,7 +12,6 @@ import {
   TextField,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import SearchBar from "../../components/SearchBar";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import MediaControlCard from "../../components/MediaControlCard";
 import AddIcon from "@material-ui/icons/Add";
