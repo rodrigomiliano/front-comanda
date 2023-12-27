@@ -2,9 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import { Container } from "@material-ui/core"
 
 import AppBarComensal from "../components/AppBarComensal"
-import BottomBar from "../Components/BottomBar"
 
-import HomePage from '../pages/HomePage'
 import AlertPage from '../pages/AlertPage'
 import PlatePage from '../pages/PlatePage'
 import BienvenidaPage from '../pages/BienvenidaPages/BienvenidaPage'
@@ -42,8 +40,7 @@ import ReservarMesaD from "../pages/ReservarMesaPages/ReservarMesaDPage"
 import ReservarMesaE from '../pages/ReservarMesaPages/ReservarMesaEPage'
 import CrearOrdenA from "../pages/CrearOrdenPages/CrearOrdenAPage"
 import CrearOrdenB from "../pages/CrearOrdenPages/CrearOrdenBPage"
-import VerDescripcionProductoAPage from "../pages/CrearOrdenPages/VerDescripcionProductoAPage"
-import VerDescripcionProductoBPage from "../pages/CrearOrdenPages/VerDescripcionProductoBPage"
+import VerDescripcionProductoPage from "../pages/CrearOrdenPages/VerDescripcionProductoPage"
 import ModificarOrden from "../pages/CrearOrdenPages/ModificarOrdenPage"
 import MarcharOrdenPage3 from "../pages/CrearOrdenPages/MarcharOrdenPage3"
 import AgregarAdicionalesPage1 from "../pages/CrearOrdenPages/AgregarAdicionalesPage1"
@@ -52,8 +49,7 @@ import AgregarAdicionalesPage3 from "../pages/CrearOrdenPages/AgregarAdicionales
 import VisualizarConsumos from '../pages/CrearOrdenPages/VisualizarConsumos'
 import CrearOrdenC from "../pages/CrearOrdenPages/CrearOrdenCPage"
 import CrearOrdenD from "../pages/CrearOrdenPages/CrearOrdenDPage"
-import GestionarPagoPage1 from "../pages/CrearOrdenPages/GestionarPagoPage1"
-import GestionarPagoPage2 from "../pages/CrearOrdenPages/GestionarPagoPage2"
+import GestionarPagoPage from "../pages/CrearOrdenPages/GestionarPagoPage"
 import ConfirmaReservaPage from '../pages/ReservarMesaPages/ConfirmaReservaPage'
 
 const DashboardRouter = () => {
@@ -64,8 +60,7 @@ const DashboardRouter = () => {
 
       <Routes>
         <Route path="alert" element={<AlertPage />} />
-        <Route path="plate" element={<PlatePage />} />
-        
+        <Route path="plate" element={<PlatePage />} />        
         <Route path="sidemenu" element={<SideMenuPage />} />
         <Route path="ver-mis-reservas" element={<VerMisReservasPage />} />
         <Route path="ver-mis-reservas-error" element={<VerMisReservasErrorPage />} />
@@ -98,28 +93,23 @@ const DashboardRouter = () => {
         <Route path="reservar-mesa-c" element={<ReservarMesaC />} />
         <Route path="reservar-mesa-d" element={<ReservarMesaD />} />
         <Route path="reservar-mesa-e" element={<ReservarMesaE />} />
-        <Route path="crear-orden-a" element={<CrearOrdenA />} />
+        <Route path="crear-orden-a/:id" element={<CrearOrdenA />} />
         <Route path="crear-orden-b" element={<CrearOrdenB />} />
-        <Route path="ver-descripcion-producto-a" element={<VerDescripcionProductoAPage />} />
-        <Route path="ver-descripcion-producto-b" element={<VerDescripcionProductoBPage />} />
+        <Route path="ver-descripcion-producto/:id" element={<VerDescripcionProductoPage />} />        
         <Route path="modificar-orden" element={<ModificarOrden />} />
         <Route path="marchar-orden-3" element={<MarcharOrdenPage3 />} />            
-        <Route path="agregar-adicionales-1" element={<AgregarAdicionalesPage1 />} />  
+        <Route path="agregar-adicionales-1/:id" element={<AgregarAdicionalesPage1 />} />  
         <Route path="agregar-adicionales-2" element={<AgregarAdicionalesPage2 />} />  
         <Route path="agregar-adicionales-3" element={<AgregarAdicionalesPage3 />} />  
         <Route path="visualizar-consumos" element={<VisualizarConsumos />} />
         <Route path="crear-orden-c" element={<CrearOrdenC />} />
-        <Route path="crear-orden-d" element={<CrearOrdenD />} />    
-        <Route path="gestionar-pago-1" element={<GestionarPagoPage1 />} />    
-        <Route path="gestionar-pago-2" element={<GestionarPagoPage2 />} />    
+        <Route path="crear-orden-d" element={<CrearOrdenD />} />            
+        <Route path="gestionar-pago" element={<GestionarPagoPage />} />    
         <Route path="confirma-reserva" element={<ConfirmaReservaPage />} />
 
         <Route path="/" element={<BienvenidaPage />} />
 
-
-      </Routes>
-
-      <BottomBar />
+      </Routes>      
 
     </Container >
   )

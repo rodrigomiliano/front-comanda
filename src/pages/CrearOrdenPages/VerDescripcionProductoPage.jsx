@@ -6,8 +6,12 @@ import {
   Grid,
   Button,
   makeStyles,
+  Chip,
+  Avatar,
+  Box,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 
 const useStyles = makeStyles((theme) => ({
   contImg: {
@@ -27,12 +31,24 @@ const useStyles = makeStyles((theme) => ({
   flexEnd: {
     paddingBottom: "70px",
   },
+  total: {
+    marginRight: "20px",
+    borderRadius: "30px",
+    backgroundColor: theme.palette.success.dark,
+    padding: "8px",
+    color: "white",
+    width: "100%",
+    fontSize: "18px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 }));
 
-function MenuItem() {
+function VerDescripcionProductoPage() {
   const { id } = useParams();
   const [producto, setProducto] = useState([]);
-  const classes = useStyles();  
+  const classes = useStyles();
 
   useEffect(() => {
     console.log("ID del producto:", id);
@@ -48,6 +64,19 @@ function MenuItem() {
 
   return (
     <>
+      <Grid container justifyContent="center" className={classes.flexTop}>
+        <Grid item xs={5}>
+          <Chip
+            avatar={<Avatar>$</Avatar>}
+            size="medium"
+            label="Visualizar consumos"
+            clickable
+            color="primary"
+            disabled
+          />
+        </Grid>
+      </Grid>
+
       <Container disableGutters={true}>
         <div className={classes.contImg}>
           {producto &&
@@ -92,21 +121,35 @@ function MenuItem() {
           </Grid>
         </Grid>
 
-        <Grid container justifyContent="center" className={classes.flexEnd}>
-          <Grid item>
+        <Box>
+          <Box className={classes.total}>
             <Button
               variant="contained"
               color="primary"
+              style={{ marginLeft: "20px", borderRadius: "30px" }}
+              startIcon={<ShoppingCartIcon />}
               component={Link}
-              to="/reservar-mesa-a"
+              to="/modificar-orden"
+              //disabled
             >
-              RESERVAR MESA
+              0
             </Button>
-          </Grid>
-        </Grid>
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ borderRadius: "30px" }}
+              component={Link}
+              to="/modificar-orden"
+              //disabled
+            >
+              Ver mis pedidos
+            </Button>
+            <Box style={{ marginRight: "20px" }}>Total: $0</Box>
+          </Box>
+        </Box>
       </Container>
     </>
   );
 }
 
-export default MenuItem;
+export default VerDescripcionProductoPage;

@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function GestionarPagoPage2() {
+function GestionarPagoPage() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -106,7 +106,7 @@ function GestionarPagoPage2() {
 
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item>
-          <Button variant="contained" component={Link} to="/dashboard/search">
+          <Button variant="contained" component={Link} to="/search">
             Volver al inicio
           </Button>
         </Grid>
@@ -115,4 +115,4 @@ function GestionarPagoPage2() {
   );
 }
 
-export default GestionarPagoPage2;
+export default GestionarPagoPage;

@@ -80,7 +80,7 @@ function MarcharOrdenPage3() {
           <Button
             variant="contained"
             component={Link}
-            to="/dashboard/agregar-adicionales-1"
+            to="/agregar-adicionales-1"
           >
             CONTINUAR
           </Button>

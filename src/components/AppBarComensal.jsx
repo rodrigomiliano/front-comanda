@@ -1,19 +1,29 @@
-import { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { useState } from "react";
+import clsx from "clsx";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-import { AppBar as AppBarMIU, CssBaseline, Toolbar, Drawer, List, ListItem, ListItemIcon, ListItemText,  Typography, Divider } from '@material-ui/core';
+import {
+  AppBar as AppBarMIU,
+  CssBaseline,
+  Toolbar,
+  Drawer,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+  Divider,
+} from "@material-ui/core";
 
 import { Link } from "react-router-dom";
-import IconButton from '@material-ui/core/IconButton'
-import MenuIcon from '@material-ui/icons/Menu'
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import ChevronRightIcon from '@material-ui/icons/ChevronRight'
-import HomeIcon from '@material-ui/icons/Home';
-import EventIcon from '@material-ui/icons/Event';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import MailIcon from '@material-ui/icons/Mail'
-
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import HomeIcon from "@material-ui/icons/Home";
+import EventIcon from "@material-ui/icons/Event";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import MailIcon from "@material-ui/icons/Mail";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,22 +38,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AppBarComensal() {
-
-  const classes = useStyles()
-  const theme = useTheme()
-  const [open, setOpen] = useState(false)
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
-  }
+  };
 
   const handleDrawerClose = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <>
-    <CssBaseline />
+      <CssBaseline />
       <AppBarMIU
         position="static"
         className={clsx(classes.appBar, {
@@ -77,68 +86,47 @@ function AppBarComensal() {
       >
         <div className={classes.drawerHeader}>
           <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+            {theme.direction === "ltr" ? (
+              <ChevronLeftIcon />
+            ) : (
+              <ChevronRightIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
-        {/* <List>
-          {['Inicio', 'Locales', 'Usuarios'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <CalendarTodayIcon /> : <FavoriteIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['Gestión de órdenes', 'Mesas', 'Productos', ].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
-               
 
         <List component="nav">
-
-        <ListItem button component={Link}
-            to="/dashboard/search">
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Inicio" />          
-        </ListItem>
-
-        <ListItem button component={Link}
-            to="/dashboard/ver-mis-reservas">
-          <ListItemIcon>
-            <EventIcon />
-          </ListItemIcon>
-          <ListItemText primary="Mis Reservas" />
+          <ListItem button component={Link} to="/dashboard/search">
+            <ListItemIcon>
+              <HomeIcon />
+            </ListItemIcon>
+            <ListItemText primary="Inicio" />
           </ListItem>
 
-          <ListItem button component={Link}
-            to="">
-          <ListItemIcon>
-            <FavoriteIcon />
-          </ListItemIcon>
-          <ListItemText primary="Favoritos" />
-          </ListItem>         
+          <ListItem button component={Link} to="/dashboard/ver-mis-reservas">
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary="Mis Reservas" />
+          </ListItem>
 
-          <ListItem button component={Link}
-            to="">
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="Contáctanos" />
-          </ListItem>         
+          <ListItem button component={Link} to="">
+            <ListItemIcon>
+              <FavoriteIcon />
+            </ListItemIcon>
+            <ListItemText primary="Favoritos" />
+          </ListItem>
 
+          <ListItem button component={Link} to="">
+            <ListItemIcon>
+              <MailIcon />
+            </ListItemIcon>
+            <ListItemText primary="Contáctanos" />
+          </ListItem>
         </List>
-
       </Drawer>
     </>
-  )
+  );
 }
 
-export default AppBarComensal
+export default AppBarComensal;

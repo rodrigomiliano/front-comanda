@@ -8,7 +8,6 @@ import {
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import SearchBar from "../../components/SearchBar";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import MediaControlCard from "../../components/MediaControlCard";
 

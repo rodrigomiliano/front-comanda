@@ -90,7 +90,7 @@ function AgregarAdicionalesPage3() {
             clickable
             color="primary"
             component={Link}
-            to="/dashboard/visualizar-consumos"
+            to="/visualizar-consumos"
           />
         </Grid>
       </Grid>
@@ -101,7 +101,7 @@ function AgregarAdicionalesPage3() {
               <ButtonBase
                 className={classes.image}
                 component={Link}
-                to="/dashboard/ver-descripcion-producto-a"
+                to="/ver-descripcion-producto"
               >
                 <img
                   className={classes.img}
@@ -188,7 +188,7 @@ function AgregarAdicionalesPage3() {
           color="primary"
           aria-label="add"
           component={Link}
-          to="/dashboard/crear-orden-b"
+          to="/crear-orden-b"
         >
           <AddIcon />
         </Fab>

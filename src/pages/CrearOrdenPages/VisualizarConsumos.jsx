@@ -189,7 +189,7 @@ function VisualizarConsumos() {
             variant="contained"
             autoFocus
             component={Link}
-                to="/dashboard/gestionar-pago"
+                to="/gestionar-pago"
           >
             Confirmar
           </Button>
