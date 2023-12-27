@@ -35,7 +35,7 @@ function AltaProductosPage() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(loggedUser), // Envía el nombre en formato JSON
+      body: localStorage.getItem("user"), // Envía el nombre en formato JSON
     })
       .then((response) => response.json())
       .then((data) => {
