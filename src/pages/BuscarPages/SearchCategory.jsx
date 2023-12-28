@@ -16,43 +16,78 @@ const useStyles = makeStyles((theme) => ({
 function SearchCategory() {
   const classes = useStyles();
   //const [locales, setLocales] = useState(null);
-  const [categoria, setCategoria] = useState(null); 
- const { id } = useParams();  
- //const [localesConCategoria, setLocalesConCategoria] = useState([]);
+  //const [categoria, setCategoria] = useState(null);
+  const { id } = useParams();
+  //const [localesConCategoria, setLocalesConCategoria] = useState([]);
+  const [categorias, setCategorias] = useState([]);
+  const [categoria, setCategoria] = useState({});
+  const [localesConCategoria, setLocalesConCategoria] = useState([]);
+  const [localesConProductos, setLocalesConProductos] = useState([]);
 
- useEffect(() => {    
-  fetch(`http://localhost:8080/comanda/categoria/${id}`)
-    .then((res) => res.json())
-    .then((data) => {
-      setCategoria(data);
-    })
-    .catch((err) => {
-      console.error("Error al obtener datos:", err);
-    });    
-}, [id]);
-  
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/comanda/categoria/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setCategoria(data);
+      })
+      .catch((err) => {
+        console.error("Error al obtener datos de la categoría:", err);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    console.log("Datos de categoría:", categoria);
+    console.log("Locales con categoría:", localesConCategoria);
+
+    if (categoria && categoria.id) {
+      fetch(`http://localhost:8080/comanda/producto/categoria/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setLocalesConCategoria(data);
+        })
+        .catch((err) => {
+          console.error("Error al obtener locales con la categoría:", err);
+        });
+    }
+  }, [id, categoria]);
+
+  useEffect(() => {
+    if (categoria && categoria.id) {
+      fetch(`http://localhost:8080/comanda/local/producto/categoria/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setLocalesConProductos(data);
+        })
+        .catch((err) => {
+          console.error(
+            "Error al obtener locales con productos de la categoría:",
+            err
+          );
+        });
+    }
+  }, [id, categoria]);
+
   return (
     <Container maxWidth="xs">
-      <Grid container justifyContent="center" className={classes.flexMargin}>
-      {categoria && categoria.nombre && (
-        <Typography component="h1" variant="h5">
-          Categoria: {categoria.nombre}  
-        </Typography>
-        )}
-      </Grid>
-
-      {/*{locales &&
-        locales.map(({ nombre, direccion }, index) => (
-          <Link to="/dashboard/resto" key={index}>
-            <CardCategory nombre={nombre} direccion={direccion} />
-          </Link>
-        ))}*/}
-        {/* Muestra los locales con productos de la categoría */}
-      {/*{localesConCategoria.map((local, index) => (
-        <Link to={`/dashboard/resto/${local.id}`} key={index}>
-          <CardCategory nombre={local.nombre} direccion={local.direccion} />
-        </Link>
-      ))}*/}
+      {localesConProductos.length > 0 &&
+        localesConProductos.map((local) => (
+          <div key={local.id}>
+            <Typography variant="h6" gutterBottom>
+              {local.nombre}
+            </Typography>
+            {local.productos &&
+              local.productos.length > 0 &&
+              local.productos.map((producto) => (
+                <Paper key={producto.id} className={classes.paper}>
+                  {/* Renderizar los detalles del producto */}
+                  {/* Aquí colocarías el código para mostrar los detalles del producto */}
+                  <Typography>{producto.nombre}</Typography>
+                  {/* ... otros detalles del producto */}
+                </Paper>
+              ))}
+          </div>
+        ))}
     </Container>
   );
 }
@@ -70,6 +105,4 @@ function SearchCategory() {
     img: "/img/lemon-pie.jpg",
     text: "33 Orientales 212",
   },
-] */;
-
-export default SearchCategory;
+] */ export default SearchCategory;

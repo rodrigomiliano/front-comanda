@@ -72,8 +72,8 @@ const DashboardRouter = () => {
         <Route path="search" element={<SearchPage />} />
         <Route path="category/:id" element={<SearchCategory />} />
         <Route path="resto/:id" element={<SearchResto />} />
-        <Route path="items" element={<MenuItems />} />        
-        <Route path="item" element={<MenuItem />} />
+        <Route path="items/:id" element={<MenuItems />} />        
+        <Route path="item/:id" element={<MenuItem />} />
         <Route path="login-usuario" element={<LoginUsuarioPage />} />
         <Route path="login-2-error-1" element={<Login2ErrorPage />} />
         <Route path="login-2-error-2" element={<Login2ErrorPage2 />} />

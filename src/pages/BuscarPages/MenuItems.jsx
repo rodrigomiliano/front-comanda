@@ -1,15 +1,22 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Container,
   Typography,
   Grid,
-  Button,
   makeStyles,
+  Button,
+  Paper,
+  ButtonBase,
+  Fab,
+  TextField,
 } from "@material-ui/core";
-
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import MediaControlCard from "../../components/MediaControlCard";
+import AddIcon from "@material-ui/icons/Add";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import axios from "axios"; // Asegúrate de tener axios instalado
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -35,7 +42,7 @@ function MenuItems() {
   const productosDelLocal = productos.filter(
     (producto) => producto.local.id === parseInt(id)
   );
-  //const classes = useStyles();
+  const classes = useStyles();
   // Agregar un estado para la categoría seleccionada
   const [selectedCategory, setSelectedCategory] = useState("");
   // Obtener categorías únicas de los productos del local seleccionado
@@ -82,27 +89,66 @@ function MenuItems() {
         return response.json();
       })
       .then((data) => {
-        setItemsMenu(data);
+        console.log("Datos recibidos:", data);
+        setProductos(data || []);
       })
-      .catch((err) => {
-        console.error("Instalar json-server");
+      .catch((error) => {
+        console.error("Error al obtener productos:", error);
       });
+  }, [id]);
 
-    /* fetch("http://localhost:8000/categories")
-      .then((res) => {
-        return res.json();
-      })
+  useEffect(() => {
+    fetch(`http://localhost:8080/comanda/local/${id}`)
+      .then((response) => response.json())
       .then((data) => {
-        setCategories(data);
+        setLocal(data);
       })
-      .catch((err) => {
-        console.error("Instalar json-server");
-      }); */
+      .catch((error) => {
+        console.error("Error al obtener datos:", error);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    // Llamada a la API para obtener productos
+    async function fetchData() {
+      try {
+        const productosResponse = await axios.get(
+          "http://localhost:8080/comanda/producto"
+        );
+        setProductos(productosResponse.data);
+      } catch (error) {
+        console.error("Error al obtener datos desde el servidor", error);
+      }
+    }
+
+    fetchData();
   }, []);
 
-  const classes = useStyles();
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+  };
+
+  const getFilteredItems = () => {
+    const filteredProductos = productos.filter(
+      (producto) =>
+        producto.local.id.toString() === id.toString() && // Comparar IDs del local
+        producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    return [...filteredProductos].map((item) => item.nombre);
+  };
+
   return (
     <>
+      <Grid container alignContent="flex-end" className={classes.flexMargin}>
+        <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+        {local && local.nombre && (
+          <Typography component="h1" variant="h6">
+            {local.nombre}
+          </Typography>
+        )}
+      </Grid>
+
       <Container maxWidth="sm">
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item xs={12}>
