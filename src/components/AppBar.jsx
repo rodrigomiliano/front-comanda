@@ -137,6 +137,17 @@ function AppBar(props) {
             </ListItemIcon>
             <ListItemText primary="Productos" />
           </ListItem>
+
+          {loggedUser.rol?.nombre == "USER_LOCAL" ? (
+            <ListItem button component={Link} to="/admin/alta-usuarios">
+              <ListItemIcon>
+                <PeopleIcon />
+              </ListItemIcon>
+              <ListItemText primary="Usuario" />
+            </ListItem>
+          ) : (
+            ""
+          )}
           {loggedUser.rol?.nombre == "ADMIN" ? (
             <>
               <ListItem button component={Link} to="/admin/alta-locales">
@@ -182,6 +193,13 @@ function AppBar(props) {
                   <LocalOfferIcon />
                 </ListItemIcon>
                 <ListItemText primary="Categorías populares" />
+              </ListItem>
+
+              <ListItem button component={Link} to="/admin/logout">
+                <ListItemIcon>
+                  <LocalOfferIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
               </ListItem>
             </>
           ) : (

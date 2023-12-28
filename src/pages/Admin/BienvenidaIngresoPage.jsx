@@ -24,11 +24,16 @@ const useStyles = makeStyles((theme) => ({
 function BienvenidaIngresoPage() {
   const classes = useStyles();
   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    localStorage.removeItem("user");
+  }, []);
 
   const handleLogin = () => {
     fetch(`http://localhost:8080/comanda/login`, {
@@ -40,12 +45,16 @@ function BienvenidaIngresoPage() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        localStorage.setItem("user", JSON.stringify(data));
-        navigate("ver-inicio");
+        if (data != null) {
+          localStorage.setItem("user", JSON.stringify(data));
+          navigate("ver-inicio");
+        }
       })
       .catch((error) => {
-        console.error("Error al login", error);
+        setErrorMessage("Usuario o contraseña invalidos");
+      })
+      .catch((error) => {
+        console.error("Error en login", error);
       });
   };
 
@@ -90,6 +99,9 @@ function BienvenidaIngresoPage() {
         </Grid>
       </Grid>
 
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <div className={classes.error}>{errorMessage}</div>
+      </Grid>
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item>
           {/* <Button variant="contained" color="primary" component={Link} to="/admin/ver-inicio"> */}

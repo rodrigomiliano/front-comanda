@@ -12,7 +12,6 @@ import AddIcon from "@material-ui/icons/Add";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import { Link } from "react-router-dom";
 import CustomizedTablesUsers from "../../components/CustomizedTablesUsers";
-import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -31,7 +30,19 @@ function AltaUsuariosPage() {
     fetch("http://localhost:8080/comanda/usuario")
       .then((response) => response.json())
       .then((data) => {
-        setUsers(data);
+        debugger;
+        console.log(localStorage.getItem("user"));
+        if (
+          JSON.parse(localStorage.getItem("user")).rol.nombre == "USER_LOCAL"
+        ) {
+          setUsers(
+            data.filter(
+              (x) => x.id === JSON.parse(localStorage.getItem("user")).id
+            )
+          );
+        } else {
+          setUsers(data);
+        }
       })
       .catch((error) => {
         console.error("Error al obtener usuarios desde el servidor", error);

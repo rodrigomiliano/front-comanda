@@ -63,6 +63,7 @@ const AdminRouter = () => {
     <Container maxWidth="xl" disableGutters={true}>
       <Routes>
         <Route path="/" element={<BienvenidaIngresoPage />} />
+        <Route path="logout" element={<BienvenidaIngresoPage />} />
         <Route
           path="bienvenida-ingreso-error"
           element={<BienvenidaIngresoPageError />}
