@@ -35,7 +35,6 @@ function AltaProductosPage2() {
   const classes = useStyles();
   const [categorias, setCategorias] = useState([]);
   const [locales, setLocales] = useState([]);
-  const [loggedUser, setloggedUser] = useState({});
   const [formData, setFormData] = useState({
     nombre: "",
     categoriaId: "", // La propiedad se llama categoriaId en el front-end
@@ -91,7 +90,6 @@ function AltaProductosPage2() {
 
   // Código para obtener locales...
   const obtenerLocales = async () => {
-    setloggedUser(JSON.parse(localStorage.getItem("user")));
     try {
       const response = await fetch(
         "http://localhost:8080/comanda/localPorUsuario",
@@ -100,7 +98,7 @@ function AltaProductosPage2() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(loggedUser),
+          body: JSON.stringify(JSON.parse(localStorage.getItem("user"))),
         }
       );
 
