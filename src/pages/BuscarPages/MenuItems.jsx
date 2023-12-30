@@ -31,31 +31,43 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function MenuItems() {
+  const classes = useStyles();
   const { id } = useParams();
   const [productos, setProductos] = useState([]);
   const [local, setLocal] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [locales, setLocales] = useState([]);
-  const [categorias, setCategorias] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");  
   const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const productosDelLocal = productos.filter(
     (producto) => producto.local.id === parseInt(id)
-  );
-  const classes = useStyles();
-  // Agregar un estado para la categoría seleccionada
-  const [selectedCategory, setSelectedCategory] = useState("");
+  );  
+  const [selectedCategory, setSelectedCategory] = useState(""); // Agregar un estado para la categoría seleccionada
+  
   // Obtener categorías únicas de los productos del local seleccionado
   const categoriesFromProducts = productosDelLocal.map(
     (producto) => producto.categoria
   );
-  const uniqueCategories = Array.from(new Set(categoriesFromProducts));
+  const uniqueCategories = categoriesFromProducts.filter(
+    (cat, index, self) => index === self.findIndex((c) => c.id === cat.id)
+  );
+
+
 
   // Función para filtrar productos por categoría seleccionada
-  const filterProductsByCategory = (event) => {
-    setSelectedCategory(event.target.value);
+  const filterProductsByCategory = (categoryId) => {
+    const category = uniqueCategories.find(
+      (cat) => cat.id === parseInt(categoryId, 10)
+    );
+    if (!category) return setFilteredProductos(productosDelLocal);
+
+    // Filtrar productos por categoría seleccionada
+    const filtered = productosDelLocal.filter(
+      (producto) => producto.categoria.id === category.id
+    );
+    setFilteredProductos(filtered);
   };
 
+ 
   useEffect(() => {
     // Llamada a la API para obtener las categorías
     fetch(`http://localhost:8080/comanda/categoria`)
@@ -73,28 +85,21 @@ function MenuItems() {
       });
   }, []);
 
-  // Filtrar productos por categoría seleccionada
-  const filteredProducts = productosDelLocal.filter(
-    (producto) =>
-      selectedCategory === "" || producto.categoria === selectedCategory
-  );
-
   useEffect(() => {
-    console.log("ID del local:", id);
-    fetch(`http://localhost:8080/comanda/producto/local/${id}`)
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        console.log("Datos recibidos:", data);
-        setProductos(data || []);
-      })
-      .catch((error) => {
-        console.error("Error al obtener productos:", error);
-      });
+    // Llamada a la API para obtener productos al cargar la página
+    async function fetchData() {
+      try {
+        const productosResponse = await axios.get(
+          `http://localhost:8080/comanda/producto/local/${id}`
+        );
+        setProductos(productosResponse.data || []);
+        setFilteredProductos(productosResponse.data || []); // Inicializa filteredProductos con todos los productos
+      } catch (error) {
+        console.error("Error al obtener datos desde el servidor", error);
+      }
+    }
+
+    fetchData();
   }, [id]);
 
   useEffect(() => {
@@ -104,26 +109,10 @@ function MenuItems() {
         setLocal(data);
       })
       .catch((error) => {
-        console.error("Error al obtener datos:", error);
+        console.error("Error al obtener local:", error);
       });
   }, [id]);
-
-  useEffect(() => {
-    // Llamada a la API para obtener productos
-    async function fetchData() {
-      try {
-        const productosResponse = await axios.get(
-          "http://localhost:8080/comanda/producto"
-        );
-        setProductos(productosResponse.data);
-      } catch (error) {
-        console.error("Error al obtener datos desde el servidor", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-
+  
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
@@ -166,47 +155,40 @@ function MenuItems() {
                 />
               )}
               onChange={(e, value) => {
-                const selectedLocal = locales.find(
-                  (local) => local.nombre === value
+                const selectedProduct = productos.find(
+                  (producto) => producto.nombre === value
                 );
-                if (selectedLocal) {
-                  // Redirige a la página de detalles del local con el ID del local seleccionado
-                  window.location.href = `/resto/${selectedLocal.id}`;
+                if (selectedProduct) {
+                  // Redirige a la página del producto seleccionado
+                  window.location.href = `/item/${selectedProduct.id}`;
                 }
               }}
             />
           </Grid>
         </Grid>
 
-        {/* Lista desplegable generada a partir de las categorías únicas */}
-        <select value={selectedCategory} onChange={filterProductsByCategory}>
-          <option value="">Todas las categorías</option>
-          {categoria.map((cat) => (
-            <option key={cat.id} value={cat.nombre}>
-              {cat.nombre}
-            </option>
-          ))}
-        </select>
+        {/* Lista desplegable generada a partir de las categorías únicas de productos filtrados */}
+        <Grid container justifyContent="center" className={classes.flexMargin}>
+          <Grid item xs={12}>
+            <select
+              value={selectedCategory}
+              onChange={(e) => {
+                setSelectedCategory(e.target.value);
+                filterProductsByCategory(e.target.value);
+              }}
+            >
+              <option value="">Todas las categorías</option>
+              {uniqueCategories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.nombre}
+                </option>
+              ))}
+            </select>
+          </Grid>
+        </Grid>
 
-        {/* Filtrar y mostrar los productos */}
-        {productosDelLocal
-          .filter((producto) => {
-            if (selectedCategory === "") {
-              return true; // Mostrar todos si no se ha seleccionado una categoría
-            }
-            return producto.categoria === selectedCategory;
-          })
-          .map((producto) => (
-            // Aquí muestras los productos que coinciden con la categoría seleccionada
-            <div key={producto.id}>{producto.nombre}</div>
-          ))}
-
-        {/* Mostrar locales y categorías filtrados */}
+        {/* Lista generada a partir de productos filtrados por el local seleccionado*/}
         {filteredProductos.map((producto) => (
-          <div key={producto.id}>{producto.nombre}</div>
-        ))}
-
-        {productosDelLocal.map((producto) => (
           <Paper key={producto.id} className={classes.paper}>
             <Grid container spacing={1}>
               <Grid item>
@@ -218,11 +200,11 @@ function MenuItems() {
                   <img
                     className={classes.img}
                     alt="Imagen del producto"
-                    src={producto.imagen} // Ajusta esto según la estructura de tu objeto producto
+                    src={producto.imagen}
                     style={{
                       maxWidth: "150px",
                       maxHeight: "100px",
-                      objectFit: "cover", // Ajusta el objetoFit según tu preferencia
+                      objectFit: "cover",
                     }}
                   />
                 </ButtonBase>
@@ -232,7 +214,7 @@ function MenuItems() {
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
                       {producto.nombre}
-                    </Typography>
+                    </Typography>                    
                     <Typography variant="body2" gutterBottom>
                       {producto.descripcion}
                     </Typography>
