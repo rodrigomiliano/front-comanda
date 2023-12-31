@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import StoreIcon from "@material-ui/icons/Store";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
+import PhoneIcon from "@mui/icons-material/Phone";
 import Image from "material-ui-image";
 import { Link } from "react-router-dom";
 
@@ -92,18 +93,33 @@ function SearchResto() {
               <ListItemText primary="Cargando datos..." />
             )}
           </ListItem>
+          <ListItem>
+            <ListItemIcon>
+              <PhoneIcon fontSize="large" />
+            </ListItemIcon>
+            {local ? (
+              <ListItemText
+                primary={local.telefono}                
+              />
+            ) : (
+              <ListItemText primary="Cargando datos..." />
+            )}
+          </ListItem>
         </List>
 
         <Divider />
 
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
           <Grid item>
-            <Typography component="h3" variant="body1">
-              Bienvenidos a la 1° parrilla vegana de Capital Federal. Desde 2015
-              nos ubicamos a unas cuadras del Congreso con nuestro local típico
-              parrilla, pero sin sufrimiento animal. Contamos con platos de
-              excelente calidad y...
-            </Typography>
+            {local ? (
+              <Typography component="h3" variant="body1">
+                {local.descripcion}
+              </Typography>
+            ) : (
+              <Typography component="h3" variant="body1">
+                Cargando descripción...
+              </Typography>
+            )}
           </Grid>
         </Grid>
 
@@ -111,11 +127,7 @@ function SearchResto() {
 
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
-            <Button
-              variant="contained"
-              component={Link}
-              to={`/items/${id}`}
-            >
+            <Button variant="contained" component={Link} to={`/items/${id}`}>
               VER MENÚ
             </Button>
           </Grid>
@@ -139,4 +151,3 @@ function SearchResto() {
 }
 
 export default SearchResto;
-

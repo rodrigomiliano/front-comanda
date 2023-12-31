@@ -74,7 +74,7 @@ export default function CustomizedTables({
             <StyledTableCell align="center">CP</StyledTableCell>
             <StyledTableCell align="center">TEL</StyledTableCell>
             <StyledTableCell align="center">IMG</StyledTableCell>
-            <StyledTableCell align="center">HORARIOS</StyledTableCell>
+            <StyledTableCell align="center">DESCRIPCION</StyledTableCell>
             <StyledTableCell align="center">ACTIVO</StyledTableCell>
             <StyledTableCell align="center">ACCIONES</StyledTableCell>
           </TableRow>
@@ -90,7 +90,7 @@ export default function CustomizedTables({
                 codigo_postal,
                 telefono,
                 imagen,
-                horarios,
+                descripcion,
                 activo,
               }) => (
                 <StyledTableRow key={id}>
@@ -109,7 +109,7 @@ export default function CustomizedTables({
                       style={{ width: "100px", height: "auto" }}
                     />
                   </StyledTableCell>
-                  <StyledTableCell align="center">{horarios}</StyledTableCell>
+                  <StyledTableCell align="center">{descripcion}</StyledTableCell>
                   <StyledTableCell align="center">
                     <Switch checked={activo} readOnly />
                   </StyledTableCell>
