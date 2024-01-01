@@ -111,11 +111,7 @@ function SearchResto() {
 
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
-            <Button
-              variant="contained"
-              component={Link}
-              to={`/items/${id}`}
-            >
+            <Button variant="contained" component={Link} to={`/items/${id}`}>
               VER MENÚ
             </Button>
           </Grid>
@@ -127,7 +123,7 @@ function SearchResto() {
               variant="contained"
               color="primary"
               component={Link}
-              to="/reservar-mesa-a"
+              to="/crear-orden-a/1"
             >
               RESERVAR MESA
             </Button>
@@ -139,4 +135,3 @@ function SearchResto() {
 }
 
 export default SearchResto;
-

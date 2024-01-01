@@ -79,14 +79,17 @@ function VerDescripcionProductoPage() {
 
       <Container disableGutters={true}>
         <div className={classes.contImg}>
-          {producto &&
-            producto.imagen && ( // Verifica si hay datos y una URL de imagen
-              <img
-                src={producto.imagen}
-                alt="Local"
-                style={{ width: "100%" }}
-              />
-            )}
+          <div className="margin5">
+            {producto &&
+              producto.imagen && ( // Verifica si hay datos y una URL de imagen
+                <img
+                  className={classes.contImg}
+                  src={producto.imagen}
+                  alt="Local"
+                  style={{ width: "100%", borderRadius: "10px" }}
+                />
+              )}
+          </div>
         </div>
       </Container>
 
@@ -94,7 +97,7 @@ function VerDescripcionProductoPage() {
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
           <Grid item xs={12}>
             {producto && producto.nombre && (
-              <Typography component="h2" variant="h5">
+              <Typography component="h2" variant="h5" className="bold">
                 {producto.nombre}
               </Typography>
             )}
@@ -114,7 +117,7 @@ function VerDescripcionProductoPage() {
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
           <Grid item xs={12}>
             {producto && producto.precio && (
-              <Typography component="h4" variant="h6">
+              <Typography component="h4" variant="h6" className="bold">
                 ${producto.precio}
               </Typography>
             )}

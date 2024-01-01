@@ -98,7 +98,7 @@ function AltaProductosPage2() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(JSON.parse(localStorage.getItem("user"))),
+          body: localStorage.getItem("user"),
         }
       );
 

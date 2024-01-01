@@ -30,8 +30,6 @@ function AltaUsuariosPage() {
     fetch("http://localhost:8080/comanda/usuario")
       .then((response) => response.json())
       .then((data) => {
-        debugger;
-        console.log(localStorage.getItem("user"));
         if (
           JSON.parse(localStorage.getItem("user")).rol.nombre == "USER_LOCAL"
         ) {

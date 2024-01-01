@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.padding5 {
+  padding: 5px;
+  border-radius: 10px;
+  
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.bc-gray {
+  background-color: lightgray;
+}
+
+.margin5 {
+  margin: 7px;
+}
+.margin5 :hover {
+  background-color: cadetblue;
+}
+.font12 {
+  font-size: larger;
+}
+.underline {
+  text-decoration: underline;
+}
