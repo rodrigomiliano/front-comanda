@@ -36,6 +36,7 @@ function EditarLocalesPage() {
   const [codigo_postal, setCodigo_postal] = useState("");
   const [telefono, setTelefono] = useState("");
   const [imagen, setImagen] = useState("");
+  const [descripcion, setDescripcion] = useState("");
   const { id } = useParams();
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [showAlturaWarning, setShowAlturaWarning] = useState(false);
@@ -56,36 +57,8 @@ function EditarLocalesPage() {
     const camposNulos = !altura || !codigo_postal || !telefono;
   
     setBotonDeshabilitado(!camposCompletos || camposNulos);
-  }, [nombre, calle, imagen, altura, codigo_postal, telefono]);
-  
-  /*
-  const handleAlturaChange = (e) => {
-    const value = e.target.value;
-    setAltura(value);
-    setShowAlturaWarning(
-      value.trim() !== "" &&
-        (isNaN(value) || !Number.isInteger(parseFloat(value)))
-    );
-  };
-
-  const handleCodigoPostalChange = (e) => {
-    const value = e.target.value;
-    setCodigo_postal(value);
-    setShowCPWarning(
-      value.trim() !== "" &&
-        (isNaN(parseInt(value)) || !Number.isInteger(parseFloat(value)))
-    );
-  };
-
-  const handleTelefonoChange = (e) => {
-    const value = e.target.value;
-    setTelefono(value);
-    setShowTelWarning(
-      value.trim() !== "" &&
-        (isNaN(parseInt(value)) || !Number.isInteger(parseFloat(value)))
-    );
-  };*/
-
+  }, [nombre, calle, imagen, altura, codigo_postal, telefono, descripcion]);
+   
 
   const handleAlturaChange = (e) => {
     const value = e.target.value;
@@ -117,6 +90,7 @@ function EditarLocalesPage() {
         setCodigo_postal(data.codigo_postal); // Actualiza con el nombre de propiedad correcto
         setTelefono(data.telefono);
         setImagen(data.imagen);
+        setDescripcion(data.descripcion);
         setLocal(data);
       })
       .catch((error) => {
@@ -142,6 +116,7 @@ function EditarLocalesPage() {
         codigo_postal: codigo_postal,
         telefono: telefono,
         imagen: imagen,
+        descripcion: descripcion,
       }),
     })
       .then((response) => {
@@ -314,6 +289,21 @@ function EditarLocalesPage() {
               fullWidth
               value={imagen}
               onChange={(e) => setImagen(e.target.value)}
+            />
+          </label>
+        </Grid>
+      </Grid>
+
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item xl={6}>
+          <label htmlFor="descripcion">
+            <TextField
+              id="descripcion"
+              label="Descripcion"
+              variant="outlined"
+              fullWidth
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
             />
           </label>
         </Grid>

@@ -33,6 +33,7 @@ function AltaLocalesPage2() {
     codigo_postal: "",
     telefono: "",
     imagen: "",
+    descripcion: "",
   });
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [showAlturaWarning, setShowAlturaWarning] = useState(false);
@@ -155,9 +156,7 @@ function AltaLocalesPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <TextField
-            label="Nombre"
-            /*titulo="Local gastronómico"*/
-            /*texto="Ingrese el nombre del local"*/
+            label="Nombre"           
             variant="outlined"
             value={formData.nombre}
             onChange={(e) =>
@@ -170,9 +169,7 @@ function AltaLocalesPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <TextField
-            label="Calle"
-            /*titulo="Local gastronómico"*/
-            /*texto="Ingrese el nombre del local"*/
+            label="Calle"            
             variant="outlined"
             value={formData.calle}
             onChange={(e) =>
@@ -185,9 +182,7 @@ function AltaLocalesPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <TextField
-            label="Altura"
-            /*titulo="Local gastronómico"*/
-            /*texto="Ingrese el nombre del local"*/
+            label="Altura"           
             variant="outlined"
             value={formData.altura}
             onChange={(e) => handleAlturaChange(e.target.value)}
@@ -205,9 +200,7 @@ function AltaLocalesPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <TextField
-            label="Codigo Postal"
-            /*titulo="Local gastronómico"*/
-            /*texto="Ingrese el nombre del local"*/
+            label="Codigo Postal"           
             variant="outlined"
             value={formData.codigo_postal}
             onChange={(e) => handleCPChange(e.target.value)}
@@ -225,9 +218,7 @@ function AltaLocalesPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <TextField
-            label="Teléfono"
-            /*titulo="Local gastronómico"*/
-            /*texto="Ingrese el nombre del local"*/
+            label="Teléfono"          
             variant="outlined"
             value={formData.telefono}
             onChange={(e) => handleTelChange(e.target.value)}
@@ -245,6 +236,22 @@ function AltaLocalesPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
           <UploadWidget onImageUpload={handleImageUpload} />
+        </Grid>
+      </Grid>
+
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item xl={6}>
+          <TextField
+            id="outlined-multiline-flexible"
+            label="Descripcion"            
+            variant="outlined"
+            multiline
+            maxRows={4}
+            value={formData.descripcion}
+            onChange={(e) =>
+              setFormData({ ...formData, descripcion: e.target.value })
+            }
+          />
         </Grid>
       </Grid>
 
