@@ -11,10 +11,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Fab,
 } from "@material-ui/core";
 import StoreIcon from "@material-ui/icons/Store";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
+import ArrowBack from "@material-ui/icons/ArrowBack";
 import Image from "material-ui-image";
 import { Link } from "react-router-dom";
 
@@ -26,6 +28,13 @@ const useStyles = makeStyles((theme) => ({
     //backgroundImage: 'url("../src/assets/images/fideos-estilo-singapur.jpg")',
     backgroundPosition: "center",
     backgroundSize: "cover", // Asegura que la imagen se ajuste al contenedor
+    position: "relative", // Agregado para posicionar elementos hijos de manera absoluta
+  },
+  arrowBack: {
+    position: "absolute",
+    top: "10px",
+    left: "10px",
+    zIndex: 1, // Para que el ícono esté encima de la imagen
   },
   flexTop: {
     marginTop: "30px",
@@ -71,6 +80,16 @@ function SearchResto() {
         )}
         */}
         <div className={classes.contImg}>
+          <Fab
+            size="small"
+            color="primary"
+            aria-label="arrow"
+            component={Link}
+            to="/search"
+            className={classes.arrowBack}
+          >
+            <ArrowBack />
+          </Fab>
           {local &&
             local.imagen && ( // Verifica si hay datos y una URL de imagen
               <img src={local.imagen} alt="Local" style={{ width: "100%" }} />
@@ -93,14 +112,13 @@ function SearchResto() {
               <ListItemText primary="Cargando datos..." />
             )}
           </ListItem>
+
           <ListItem>
             <ListItemIcon>
               <PhoneIcon fontSize="large" />
             </ListItemIcon>
             {local ? (
-              <ListItemText
-                primary={local.telefono}                
-              />
+              <ListItemText primary={local.telefono} />
             ) : (
               <ListItemText primary="Cargando datos..." />
             )}

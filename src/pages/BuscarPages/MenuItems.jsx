@@ -9,12 +9,13 @@ import {
   Paper,
   ButtonBase,
   Fab,
-  TextField,
+  TextField,  
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import MediaControlCard from "../../components/MediaControlCard";
 import AddIcon from "@material-ui/icons/Add";
+import ArrowBack from "@material-ui/icons/ArrowBack";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import axios from "axios"; // Asegúrate de tener axios instalado
 
@@ -130,6 +131,16 @@ function MenuItems() {
   return (
     <>
       <Grid container alignContent="flex-end" className={classes.flexMargin}>
+      <Fab
+            size="small"
+            color="primary"
+            aria-label="arrow"
+            component={Link}
+            to={`/resto/${id}`}
+            className={classes.arrowBack}
+          >
+            <ArrowBack />
+          </Fab>
         <LocalOfferIcon fontSize="small"></LocalOfferIcon>
         {local && local.nombre && (
           <Typography component="h1" variant="h6">
