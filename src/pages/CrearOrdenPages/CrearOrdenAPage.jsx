@@ -16,7 +16,6 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import MediaControlCard from "../../components/MediaControlCard";
 import AddIcon from "@material-ui/icons/Add";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -53,6 +52,7 @@ function CrearOrdenAPage() {
   const [local, setLocal] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [locales, setLocales] = useState([]);
+  const [cartCounter, setCartCounter] = useState(0);
   const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
@@ -95,6 +95,9 @@ function CrearOrdenAPage() {
       .catch((error) => {
         console.error("Error al obtener categorías:", error);
       });
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCartCounter(cart.length);
   }, []);
 
   // Filtrar productos por categoría seleccionada
@@ -150,6 +153,14 @@ function CrearOrdenAPage() {
 
   const handleSearch = (value) => {
     setSearchTerm(value);
+  };
+
+  const addItem = (productId) => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(productos.find((p) => p.id === productId));
+    const itemsCount = cart.length;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    setCartCounter(itemsCount);
   };
 
   const getFilteredItems = () => {
@@ -274,8 +285,9 @@ function CrearOrdenAPage() {
                       color="primary"
                       aria-label="add"
                       size="small"
-                      component={Link}
-                      to={`/crear-orden/${producto.id}`}
+                      // component={Link}
+                      // to={`/crear-orden/${producto.id}`}
+                      onClick={() => addItem(producto.id)}
                     >
                       <AddIcon />
                     </Fab>
@@ -293,10 +305,12 @@ function CrearOrdenAPage() {
               variant="contained"
               color="primary"
               //disabled
+              component={Link}
+              to={"/crear-orden-b/" + id}
               style={{ marginLeft: "20px", borderRadius: "30px" }}
               startIcon={<ShoppingCartIcon />}
             >
-              0
+              {cartCounter}
             </Button>
             <Button
               variant="contained"
