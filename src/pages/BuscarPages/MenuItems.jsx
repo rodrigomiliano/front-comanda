@@ -9,10 +9,10 @@ import {
   Paper,
   ButtonBase,
   Fab,
-  TextField,  
+  TextField,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import StoreIcon from "@material-ui/icons/Store";
 import MediaControlCard from "../../components/MediaControlCard";
 import AddIcon from "@material-ui/icons/Add";
 import ArrowBack from "@material-ui/icons/ArrowBack";
@@ -36,14 +36,14 @@ function MenuItems() {
   const { id } = useParams();
   const [productos, setProductos] = useState([]);
   const [local, setLocal] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");  
+  const [searchTerm, setSearchTerm] = useState("");
   const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const productosDelLocal = productos.filter(
     (producto) => producto.local.id === parseInt(id)
-  );  
+  );
   const [selectedCategory, setSelectedCategory] = useState(""); // Agregar un estado para la categoría seleccionada
-  
+
   // Obtener categorías únicas de los productos del local seleccionado
   const categoriesFromProducts = productosDelLocal.map(
     (producto) => producto.categoria
@@ -51,8 +51,6 @@ function MenuItems() {
   const uniqueCategories = categoriesFromProducts.filter(
     (cat, index, self) => index === self.findIndex((c) => c.id === cat.id)
   );
-
-
 
   // Función para filtrar productos por categoría seleccionada
   const filterProductsByCategory = (categoryId) => {
@@ -68,7 +66,6 @@ function MenuItems() {
     setFilteredProductos(filtered);
   };
 
- 
   useEffect(() => {
     // Llamada a la API para obtener las categorías
     fetch(`http://localhost:8080/comanda/categoria`)
@@ -113,7 +110,7 @@ function MenuItems() {
         console.error("Error al obtener local:", error);
       });
   }, [id]);
-  
+
   const handleSearch = (value) => {
     setSearchTerm(value);
   };
@@ -131,17 +128,17 @@ function MenuItems() {
   return (
     <>
       <Grid container alignContent="flex-end" className={classes.flexMargin}>
-      <Fab
-            size="small"
-            color="primary"
-            aria-label="arrow"
-            component={Link}
-            to={`/resto/${id}`}
-            className={classes.arrowBack}
-          >
-            <ArrowBack />
-          </Fab>
-        <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+        <Fab
+          size="small"
+          color="primary"
+          aria-label="arrow"
+          component={Link}
+          to={`/resto/${id}`}
+          className={classes.arrowBack}
+        >
+          <ArrowBack />
+        </Fab>
+        <StoreIcon fontSize="small"></StoreIcon>
         {local && local.nombre && (
           <Typography component="h1" variant="h6">
             {local.nombre}
@@ -225,7 +222,7 @@ function MenuItems() {
                   <Grid item xs>
                     <Typography gutterBottom variant="subtitle1">
                       {producto.nombre}
-                    </Typography>                    
+                    </Typography>
                     <Typography variant="body2" gutterBottom>
                       {producto.descripcion}
                     </Typography>
@@ -243,6 +240,7 @@ function MenuItems() {
                     size="small"
                     component={Link}
                     to={`/crear-orden/${producto.id}`}
+                    disabled
                   >
                     <AddIcon />
                   </Fab>
@@ -260,7 +258,7 @@ function MenuItems() {
               component={Link}
               to="/reservar-mesa-a"
             >
-              RESERVAR
+              EMPEZAR A PEDIR
             </Button>
           </Grid>
         </Grid>

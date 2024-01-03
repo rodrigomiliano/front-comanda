@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
-import { Container, Typography, Grid, makeStyles } from "@material-ui/core";
+import { Container, Typography, Grid, makeStyles, Paper, ButtonBase, Fab } from "@material-ui/core";
 import { useParams, Link } from "react-router-dom";
 
 import CardCategory from "../../components/CardCategory";
+import StoreIcon from "@material-ui/icons/Store";
+import ArrowBack from "@material-ui/icons/ArrowBack";
+import axios from "axios"; 
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -10,6 +13,24 @@ const useStyles = makeStyles((theme) => ({
   },
   flexMargin: {
     margin: "15px 0",
+  },
+  storeIcon: {
+    marginRight: theme.spacing(1),
+  },
+  img: {
+    maxWidth: "150px",
+    maxHeight: "100px",
+    objectFit: "cover",
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: theme.spacing(1),
+  },
+  productName: {
+    fontWeight: "bold",
+  },
+  productPrice: {
+    cursor: "pointer",
   },
 }));
 
@@ -54,55 +75,38 @@ function SearchCategory() {
 
   useEffect(() => {
     if (categoria && categoria.id) {
-      fetch(`http://localhost:8080/comanda/local/producto/categoria/${id}`)
-        .then((res) => res.json())
+      fetch(`http://localhost:8080/comanda/categoria/${categoria.id}/locales`)
+        .then((res) => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
         .then((data) => {
           setLocalesConProductos(data);
         })
         .catch((err) => {
-          console.error(
-            "Error al obtener locales con productos de la categoría:",
-            err
-          );
+          console.error("Error al obtener locales con productos de la categoría:", err);
         });
     }
   }, [id, categoria]);
+  
 
   return (
     <Container maxWidth="xs">
       {localesConProductos.length > 0 &&
         localesConProductos.map((local) => (
-          <div key={local.id}>
+          <Paper key={local.id} className={classes.paper}>
+          {/*<div key={`local-${local.id}`}>*/}
             <Typography variant="h6" gutterBottom>
               {local.nombre}
             </Typography>
-            {local.productos &&
-              local.productos.length > 0 &&
-              local.productos.map((producto) => (
-                <Paper key={producto.id} className={classes.paper}>
-                  {/* Renderizar los detalles del producto */}
-                  {/* Aquí colocarías el código para mostrar los detalles del producto */}
-                  <Typography>{producto.nombre}</Typography>
-                  {/* ... otros detalles del producto */}
-                </Paper>
-              ))}
-          </div>
+           
+          {/*</div>*/}
+          </Paper>
         ))}
     </Container>
   );
 }
 
-/* const topPlates = [
-  {
-    plate: "Il Balo del Mattone",
-    img: "/img/fideos-estilo-singapur.jpg",
-    text: "Niceto Vega 2339",
-  },
-  { plate: "La Choza", img: "/img/gambas-al-ajillo.jpg", text: "Aráoz 129" },
-  { plate: "Tempo de Pasta", img: "/img/lemon-pie.jpg", text: "Riobamba 2521" },
-  {
-    plate: "Los 33 Orientales",
-    img: "/img/lemon-pie.jpg",
-    text: "33 Orientales 212",
-  },
-] */ export default SearchCategory;
+ export default SearchCategory;

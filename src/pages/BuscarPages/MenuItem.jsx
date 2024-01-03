@@ -6,8 +6,10 @@ import {
   Grid,
   Button,
   makeStyles,
+  Fab,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles((theme) => ({
   contImg: {
@@ -32,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
 function MenuItem() {
   const { id } = useParams();
   const [producto, setProducto] = useState([]);
-  const classes = useStyles();  
+  const classes = useStyles();
 
   useEffect(() => {
     console.log("ID del producto:", id);
@@ -63,14 +65,28 @@ function MenuItem() {
 
       <Container maxWidth="sm">
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
-          <Grid item xs={12}>
+          <Grid item xs={11}>
             {producto && producto.nombre && (
               <Typography component="h2" variant="h5">
                 {producto.nombre}
               </Typography>
             )}
           </Grid>
+          <Grid item xs={1}>
+          <Fab
+            color="primary"
+            aria-label="add"
+            size="small"
+            component={Link}
+            to={`/crear-orden/${producto.id}`}
+            disabled
+          >
+            <AddIcon />
+          </Fab>
         </Grid>
+        </Grid>
+
+        
 
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
           <Grid item xs={12}>
@@ -100,7 +116,7 @@ function MenuItem() {
               component={Link}
               to="/reservar-mesa-a"
             >
-              RESERVAR MESA
+              EMPEZAR A PEDIR
             </Button>
           </Grid>
         </Grid>
