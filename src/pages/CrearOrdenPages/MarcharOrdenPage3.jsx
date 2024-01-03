@@ -64,6 +64,35 @@ function MarcharOrdenPage3() {
   return (
     <>
       <div>test</div>
+      <Box>
+        <Box className={classes.total}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginLeft: "20px", borderRadius: "30px" }}
+            startIcon={<ShoppingCartIcon />}
+          >
+            3
+          </Button>
+          <DialogInfo
+            mensaje={
+              <Button
+                variant="contained"
+                color="primary"
+                style={{ borderRadius: "30px" }}
+              >
+                Marchar orden
+              </Button>
+            }
+            pregunta="¿Desea marchar su orden"
+            btnIzquierda="Atrás"
+            btnDerecha="Marchar"
+            hrefIzquierda=""
+            hrefDerecha="marchar-orden-3"
+          />
+          <Box style={{ marginRight: "20px" }}>Total: $9000</Box>
+        </Box>
+      </Box>
       {/* <Container maxWidth="sm">
         <Grid container justifyContent="center" className={classes.flexTop}>
           <Grid item>

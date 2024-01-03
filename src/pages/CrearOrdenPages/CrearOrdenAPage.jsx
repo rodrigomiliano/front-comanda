@@ -53,6 +53,7 @@ function CrearOrdenAPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [locales, setLocales] = useState([]);
   const [cartCounter, setCartCounter] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
@@ -97,6 +98,7 @@ function CrearOrdenAPage() {
       });
 
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
     setCartCounter(cart.length);
   }, []);
 
@@ -161,6 +163,7 @@ function CrearOrdenAPage() {
     const itemsCount = cart.length;
     localStorage.setItem("cart", JSON.stringify(cart));
     setCartCounter(itemsCount);
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
   };
 
   const getFilteredItems = () => {
@@ -304,25 +307,17 @@ function CrearOrdenAPage() {
             <Button
               variant="contained"
               color="primary"
-              //disabled
-              component={Link}
-              to={"/crear-orden-b/" + id}
-              style={{ marginLeft: "20px", borderRadius: "30px" }}
+              // disabled
+              // component={Link}
+              // to={"/crear-orden-b/" + id}
               startIcon={<ShoppingCartIcon />}
-            >
-              {cartCounter}
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              //disabled
               style={{ borderRadius: "30px" }}
               component={Link}
               to="/modificar-orden"
             >
-              Ver mis pedidos
+              {cartCounter} - Ver mis pedidos
             </Button>
-            <Box style={{ marginRight: "20px" }}>Total: $0</Box>
+            <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
           </Box>
         </Box>
       </Container>

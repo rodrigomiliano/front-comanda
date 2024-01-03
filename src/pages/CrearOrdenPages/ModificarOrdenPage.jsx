@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Chip,
   Grid,
@@ -74,10 +75,19 @@ const useStyles = makeStyles((theme) => ({
 
 function ModificarOrdenPage() {
   const classes = useStyles();
+  const [cart, setCart] = useState([]);
+  const [totalCartItems, setTotalCartItems] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
 
   const handleDelete = () => {
     console.info("You clicked the delete icon.");
   };
+  useEffect(() => {
+    const userCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setTotalCartItems(userCart.length);
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    setCart(userCart);
+  }, []);
 
   return (
     <>
@@ -93,8 +103,9 @@ function ModificarOrdenPage() {
           />
         </Grid>
       </Grid>
-      <div className={classes.root}>
-        <Paper className={classes.paper}>
+
+      {cart.map((p, index) => (
+        <Paper className={classes.paper} key={"paper" + index}>
           <Grid container spacing={1}>
             <Grid item>
               <ButtonBase
@@ -102,110 +113,44 @@ function ModificarOrdenPage() {
                 component={Link}
                 to="/dashboard/ver-descripcion-producto-a"
               >
-                <img
-                  className={classes.img}
-                  alt="complex"
-                  src="../src/assets/images/lomito.jpg"
-                />
+                <img className={classes.img} alt="complex" src={p.imagen} />
               </ButtonBase>
             </Grid>
             <Grid item xs sm container>
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
                   <Typography gutterBottom variant="subtitle1">
-                    Lomito clasico
+                    {p.nombre}
                   </Typography>
                   <Typography
                     variant="body2"
                     gutterBottom
                     className={classes.descPrice}
                   >
-                    Sandwich de lomito, queso, tomate, lechuga
+                    {p.descripcion}
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="body2" style={{ cursor: "pointer" }}>
-                    $1120
+                    ${p.precio}
                   </Typography>
                 </Grid>
               </Grid>
-              <Grid xs="3">
-                {/* <Grid item>
-                <Typography variant="subtitle1">$19999.00</Typography>
-              </Grid> */}
+              <Grid item>
+                <Fab color="primary" aria-label="add" size="small">
+                  <AddIcon />
+                </Fab>
 
-                <Grid item>
-                  <Box>
-                    <Box className={classes.total2}>
-                      <Fab color="primary" aria-label="add" size="small">
-                        <AddIcon />
-                      </Fab>
-                      <Typography variant="subtitle1">3</Typography>
-                      <Fab color="primary" aria-label="remove" size="small">
-                        <RemoveIcon />
-                      </Fab>
-                    </Box>
-                  </Box>
-                </Grid>
+                <Fab aria-label="remove" size="small">
+                  <RemoveIcon />
+                </Fab>
               </Grid>
             </Grid>
           </Grid>
         </Paper>
+      ))}
 
-        <Paper className={classes.paper}>
-          <Grid container spacing={2}>
-            <Grid item>
-              <ButtonBase className={classes.image}>
-                <img
-                  className={classes.img}
-                  alt="complex"
-                  src="../src/assets/images/lomito.jpg"
-                />
-              </ButtonBase>
-            </Grid>
-            <Grid item xs sm container>
-              <Grid item xs container direction="column" spacing={2}>
-                <Grid item xs>
-                  <Typography gutterBottom variant="subtitle1">
-                    Lomito completo
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    gutterBottom
-                    className={classes.descPrice}
-                  >
-                    Sandwich de lomo, tomate, lechuga, queso, jamon, huevo.
-                  </Typography>
-                </Grid>
-                <Grid item>
-                  <Typography variant="body2" style={{ cursor: "pointer" }}>
-                    $1100
-                  </Typography>
-                </Grid>
-              </Grid>
-
-              <Grid xs="3">
-                {/* <Grid item>
-                <Typography variant="subtitle1">$19999.00</Typography>
-              </Grid> */}
-
-                <Grid item>
-                  <Box>
-                    <Box className={classes.total2}>
-                      <Fab color="primary" aria-label="add" size="small">
-                        <AddIcon />
-                      </Fab>
-                      <Typography variant="subtitle1">3</Typography>
-                      <Fab color="primary" aria-label="remove" size="small">
-                        <RemoveIcon />
-                      </Fab>
-                    </Box>
-                  </Box>
-                </Grid>
-              </Grid>
-            </Grid>
-          </Grid>
-        </Paper>
+      <div className={classes.root}>
         {/* TODO: ver de mejorar el boton para sumar y restar items del menu */}
 
         <Fab
@@ -219,22 +164,15 @@ function ModificarOrdenPage() {
 
         <Box>
           <Box className={classes.total}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginLeft: "20px", borderRadius: "30px" }}
-              startIcon={<ShoppingCartIcon />}
-            >
-              3
-            </Button>
             <DialogInfo
               mensaje={
                 <Button
                   variant="contained"
                   color="primary"
                   style={{ borderRadius: "30px" }}
+                  startIcon={<ShoppingCartIcon />}
                 >
-                  Marchar orden
+                  {totalCartItems} - Marchar orden
                 </Button>
               }
               pregunta="¿Desea marchar su orden"
@@ -243,7 +181,7 @@ function ModificarOrdenPage() {
               hrefIzquierda=""
               hrefDerecha="marchar-orden-3"
             />
-            <Box style={{ marginRight: "20px" }}>Total: $9000</Box>
+            <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
           </Box>
         </Box>
       </div>

@@ -151,48 +151,46 @@ function CrearOrdenBPage() {
           />
         </Box> */}
 
-      {cart.map((p) => (
-        <>
-          <Paper className={classes.paper}>
-            <Grid container spacing={1}>
-              <Grid item>
-                <ButtonBase
-                  className={classes.image}
-                  component={Link}
-                  to="/dashboard/ver-descripcion-producto-a"
-                >
-                  <img className={classes.img} alt="complex" src={p.imagen} />
-                </ButtonBase>
-              </Grid>
-              <Grid item xs sm container>
-                <Grid item xs container direction="column" spacing={2}>
-                  <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
-                      {p.nombre}
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      gutterBottom
-                      className={classes.descPrice}
-                    >
-                      {p.descripcion}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body2" style={{ cursor: "pointer" }}>
-                      ${p.precio}
-                    </Typography>
-                  </Grid>
+      {cart.map((p, index) => (
+        <Paper className={classes.paper} key={"paper" + index}>
+          <Grid container spacing={1}>
+            <Grid item>
+              <ButtonBase
+                className={classes.image}
+                component={Link}
+                to="/dashboard/ver-descripcion-producto-a"
+              >
+                <img className={classes.img} alt="complex" src={p.imagen} />
+              </ButtonBase>
+            </Grid>
+            <Grid item xs sm container>
+              <Grid item xs container direction="column" spacing={2}>
+                <Grid item xs>
+                  <Typography gutterBottom variant="subtitle1">
+                    {p.nombre}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    gutterBottom
+                    className={classes.descPrice}
+                  >
+                    {p.descripcion}
+                  </Typography>
                 </Grid>
                 <Grid item>
-                  <Fab color="primary" aria-label="add" size="small">
-                    <AddIcon />
-                  </Fab>
+                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                    ${p.precio}
+                  </Typography>
                 </Grid>
               </Grid>
+              <Grid item>
+                <Fab color="primary" aria-label="add" size="small">
+                  <AddIcon />
+                </Fab>
+              </Grid>
             </Grid>
-          </Paper>
-        </>
+          </Grid>
+        </Paper>
       ))}
       <Box className={classes.flexEnd}>
         <Box className={classes.total}>
