@@ -105,8 +105,7 @@ function CrearOrdenBPage() {
       </Grid>
 
       <SearchBar />
-      <div className={classes.root}>
-        <Box my={3}>
+      {/* <Box my={3}>
           <Chip
             size="medium"
             label="Pasta"
@@ -150,74 +149,73 @@ function CrearOrdenBPage() {
             color="primary"
             variant="outlined"
           />
-        </Box>
+        </Box> */}
 
-        {cart.map((p) => (
-          <>
-            <Paper className={classes.paper}>
-              <Grid container spacing={1}>
-                <Grid item>
-                  <ButtonBase
-                    className={classes.image}
-                    component={Link}
-                    to="/dashboard/ver-descripcion-producto-a"
-                  >
-                    <img className={classes.img} alt="complex" src={p.imagen} />
-                  </ButtonBase>
-                </Grid>
-                <Grid item xs sm container>
-                  <Grid item xs container direction="column" spacing={2}>
-                    <Grid item xs>
-                      <Typography gutterBottom variant="subtitle1">
-                        {p.nombre}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        gutterBottom
-                        className={classes.descPrice}
-                      >
-                        {p.descripcion}
-                      </Typography>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="body2" style={{ cursor: "pointer" }}>
-                        ${p.precio}
-                      </Typography>
-                    </Grid>
+      {cart.map((p) => (
+        <>
+          <Paper className={classes.paper}>
+            <Grid container spacing={1}>
+              <Grid item>
+                <ButtonBase
+                  className={classes.image}
+                  component={Link}
+                  to="/dashboard/ver-descripcion-producto-a"
+                >
+                  <img className={classes.img} alt="complex" src={p.imagen} />
+                </ButtonBase>
+              </Grid>
+              <Grid item xs sm container>
+                <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      {p.nombre}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      gutterBottom
+                      className={classes.descPrice}
+                    >
+                      {p.descripcion}
+                    </Typography>
                   </Grid>
                   <Grid item>
-                    <Fab color="primary" aria-label="add" size="small">
-                      <AddIcon />
-                    </Fab>
+                    <Typography variant="body2" style={{ cursor: "pointer" }}>
+                      ${p.precio}
+                    </Typography>
                   </Grid>
                 </Grid>
+                <Grid item>
+                  <Fab color="primary" aria-label="add" size="small">
+                    <AddIcon />
+                  </Fab>
+                </Grid>
               </Grid>
-            </Paper>
-          </>
-        ))}
-        <Box className={classes.flexEnd}>
-          <Box className={classes.total}>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ marginLeft: "20px", borderRadius: "30px" }}
-              startIcon={<ShoppingCartIcon />}
-            >
-              {totalCartItems}
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              style={{ borderRadius: "30px" }}
-              component={Link}
-              to="/dashboard/modificar-orden"
-            >
-              Ver mis pedidos
-            </Button>
-            <Box style={{ marginRight: "20px" }}>Total: $9000</Box>
-          </Box>
+            </Grid>
+          </Paper>
+        </>
+      ))}
+      <Box className={classes.flexEnd}>
+        <Box className={classes.total}>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ marginLeft: "20px", borderRadius: "30px" }}
+            startIcon={<ShoppingCartIcon />}
+          >
+            {totalCartItems}
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            style={{ borderRadius: "30px" }}
+            component={Link}
+            to="/dashboard/marchar-orden-3"
+          >
+            Marchar orden
+          </Button>
+          <Box style={{ marginRight: "20px" }}>Total: $9000</Box>
         </Box>
-      </div>
+      </Box>
     </>
   );
 }
