@@ -16,7 +16,6 @@ import { Link } from "react-router-dom";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import AddIcon from "@material-ui/icons/Add";
 import RemoveIcon from "@material-ui/icons/Remove";
-import { blue } from "@material-ui/core/colors";
 import DialogInfo from "../../components/DialogInfo";
 
 const useStyles = makeStyles((theme) => ({

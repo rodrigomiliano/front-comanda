@@ -1,58 +1,59 @@
-import { Grid, Button, Container, makeStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import AlertComanda from "../../components/AlertComanda";
+import { Grid, Button, Container, Box, makeStyles } from "@material-ui/core";
+import DialogInfo from "../../components/DialogInfo";
 
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     flexGrow: 1,
-//     marginTop: "20px",
-//   },
-//   paper: {
-//     padding: theme.spacing(2),
-//     margin: "auto",
-//     marginBottom: "10px",
-//     maxWidth: 500,
-//   },
-//   image: {
-//     width: 92,
-//     height: 92,
-//   },
-//   img: {
-//     margin: "auto",
-//     display: "block",
-//     maxWidth: "100%",
-//     maxHeight: "100%",
-//   },
-//   total: {
-//     marginRight: "20px",
-//     borderRadius: "30px",
-//     backgroundColor: theme.palette.success.dark,
-//     padding: "8px",
-//     color: "white",
-//     width: "100%",
-//     fontSize: "18px",
-//     display: "flex",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//   },
-//   total2: {
-//     marginRight: "20px",
-//     borderRadius: "30px",
-//     backgroundColor: theme.palette.primary.dark,
-//     color: "white",
-//     width: "100%",
-//     fontSize: "18px",
-//     display: "flex",
-//     justifyContent: "space-between",
-//     alignItems: "center",
-//   },
-//   flexTop: {
-//     marginTop: "30px",
-//   },
-//   flexMargin: {
-//     margin: "30px 0",
-//   },
-// }));
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    marginTop: "20px",
+  },
+  paper: {
+    padding: theme.spacing(2),
+    margin: "auto",
+    marginBottom: "10px",
+    maxWidth: 500,
+  },
+  image: {
+    width: 92,
+    height: 92,
+  },
+  img: {
+    margin: "auto",
+    display: "block",
+    maxWidth: "100%",
+    maxHeight: "100%",
+  },
+  total: {
+    marginRight: "20px",
+    borderRadius: "30px",
+    backgroundColor: theme.palette.success.dark,
+    padding: "8px",
+    color: "white",
+    width: "100%",
+    fontSize: "18px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  total2: {
+    marginRight: "20px",
+    borderRadius: "30px",
+    backgroundColor: theme.palette.primary.dark,
+    color: "white",
+    width: "100%",
+    fontSize: "18px",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  flexTop: {
+    marginTop: "30px",
+  },
+  flexMargin: {
+    margin: "30px 0",
+  },
+}));
 
 function MarcharOrdenPage3() {
   const classes = useStyles();
@@ -63,7 +64,6 @@ function MarcharOrdenPage3() {
 
   return (
     <>
-      <div>test</div>
       <Box>
         <Box className={classes.total}>
           <Button
