@@ -1,11 +1,19 @@
 import { useEffect, useState } from "react";
-import { Container, Typography, Grid, makeStyles, Paper, ButtonBase, Fab } from "@material-ui/core";
+import {
+  Container,
+  Typography,
+  Grid,
+  makeStyles,
+  Paper,
+  ButtonBase,
+  Fab,
+} from "@material-ui/core";
 import { useParams, Link } from "react-router-dom";
 
 import CardCategory from "../../components/CardCategory";
-import StoreIcon from "@material-ui/icons/Store";
+import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import ArrowBack from "@material-ui/icons/ArrowBack";
-import axios from "axios"; 
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -36,15 +44,10 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchCategory() {
   const classes = useStyles();
-  //const [locales, setLocales] = useState(null);
-  //const [categoria, setCategoria] = useState(null);
   const { id } = useParams();
-  //const [localesConCategoria, setLocalesConCategoria] = useState([]);
-  const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState({});
   const [localesConCategoria, setLocalesConCategoria] = useState([]);
   const [localesConProductos, setLocalesConProductos] = useState([]);
-
 
   useEffect(() => {
     fetch(`http://localhost:8080/comanda/categoria/${id}`)
@@ -78,7 +81,7 @@ function SearchCategory() {
       fetch(`http://localhost:8080/comanda/categoria/${categoria.id}/locales`)
         .then((res) => {
           if (!res.ok) {
-            throw new Error('Network response was not ok');
+            throw new Error("Network response was not ok");
           }
           return res.json();
         })
@@ -86,27 +89,81 @@ function SearchCategory() {
           setLocalesConProductos(data);
         })
         .catch((err) => {
-          console.error("Error al obtener locales con productos de la categoría:", err);
+          console.error(
+            "Error al obtener locales con productos de la categoría:",
+            err
+          );
         });
     }
   }, [id, categoria]);
-  
 
   return (
     <Container maxWidth="xs">
+      <Grid container alignContent="flex-end" className={classes.flexMargin}>
+        <Fab
+          size="small"
+          color="primary"
+          aria-label="arrow"
+          component={Link}
+          to={`/search`}
+          className={classes.arrowBack}
+        >
+          <ArrowBack />
+        </Fab>
+        <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+        {categoria && categoria.nombre && (
+          <Typography component="h1" variant="h6">
+            Categoria: {categoria.nombre}
+          </Typography>
+        )}
+      </Grid>
+
       {localesConProductos.length > 0 &&
         localesConProductos.map((local) => (
           <Paper key={local.id} className={classes.paper}>
-          {/*<div key={`local-${local.id}`}>*/}
-            <Typography variant="h6" gutterBottom>
-              {local.nombre}
-            </Typography>
-           
-          {/*</div>*/}
+            <Grid container spacing={1}>
+              <Grid item>
+                <ButtonBase
+                  className={classes.image}
+                  component={Link}
+                  to={`/resto/${local.id}`}
+                >
+                  <img
+                    className={local.img}
+                    alt="Imagen del producto"
+                    src={local.imagen}
+                    style={{
+                      maxWidth: "150px",
+                      maxHeight: "100px",
+                      objectFit: "cover",
+                    }}
+                  />
+                </ButtonBase>
+              </Grid>
+
+              <Grid item xs sm container>
+                <Grid item xs container direction="column" spacing={2}>
+                  <Grid item xs>
+                    <Typography gutterBottom variant="subtitle1">
+                      {local.nombre}
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      {local.calle} {local.altura}
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      CP {local.codigo_postal}
+                    </Typography>
+                    <Typography variant="body2" gutterBottom>
+                      TEL: {local.telefono}
+                    </Typography>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
           </Paper>
         ))}
     </Container>
   );
 }
 
- export default SearchCategory;
+export default SearchCategory;
