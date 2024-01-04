@@ -1,7 +1,6 @@
-import { Grid, Button, Container, Box, makeStyles } from "@material-ui/core";
-import DialogInfo from "../../components/DialogInfo";
-
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import { Grid, Button, Container, makeStyles } from "@material-ui/core";
+import AlertComanda from "../../components/AlertComanda";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,42 +57,9 @@ const useStyles = makeStyles((theme) => ({
 function MarcharOrdenPage3() {
   const classes = useStyles();
 
-  const handleDelete = () => {
-    console.info("You clicked the delete icon.");
-  };
-
   return (
     <>
-      <Box>
-        <Box className={classes.total}>
-          <Button
-            variant="contained"
-            color="primary"
-            style={{ marginLeft: "20px", borderRadius: "30px" }}
-            startIcon={<ShoppingCartIcon />}
-          >
-            3
-          </Button>
-          <DialogInfo
-            mensaje={
-              <Button
-                variant="contained"
-                color="primary"
-                style={{ borderRadius: "30px" }}
-              >
-                Marchar orden
-              </Button>
-            }
-            pregunta="¿Desea marchar su orden"
-            btnIzquierda="Atrás"
-            btnDerecha="Marchar"
-            hrefIzquierda=""
-            hrefDerecha="marchar-orden-3"
-          />
-          <Box style={{ marginRight: "20px" }}>Total: $9000</Box>
-        </Box>
-      </Box>
-      {/* <Container maxWidth="sm">
+      <Container maxWidth="sm">
         <Grid container justifyContent="center" className={classes.flexTop}>
           <Grid item>
             <AlertComanda
@@ -105,11 +71,12 @@ function MarcharOrdenPage3() {
             />
           </Grid>
         </Grid>
-        <div>test</div>
+
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
             <Button
               variant="contained"
+              color="primary"
               component={Link}
               to="/agregar-adicionales-1"
             >
@@ -117,7 +84,7 @@ function MarcharOrdenPage3() {
             </Button>
           </Grid>
         </Grid>
-      </Container> */}
+      </Container>
     </>
   );
 }
