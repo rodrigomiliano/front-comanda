@@ -98,7 +98,8 @@ function ModificarOrdenPage() {
             label="Visualizar consumos"
             clickable
             color="primary"
-            disabled
+            component={Link}
+            to={"/visualizar-consumos"            }
           />
         </Grid>
       </Grid>

@@ -15,8 +15,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import MediaControlCard from "../../components/MediaControlCard";
+import StoreIcon from "@material-ui/icons/Store";
 import AddIcon from "@material-ui/icons/Add";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -49,13 +48,16 @@ const useStyles = makeStyles((theme) => ({
 function AgregarAdicionalesPage1() {
   const { id } = useParams();
   const [productos, setProductos] = useState([]);
+  const [productosSeleccionados, setProductosSeleccionados] = useState([]);
   const [local, setLocal] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [locales, setLocales] = useState([]);
+  const [cartCounter, setCartCounter] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
   const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
-  const productosDelLocal = productos.filter(
+  const productosDelLocal = productosSeleccionados.filter(
     (producto) => producto.local.id === parseInt(id)
   );
   const classes = useStyles();
@@ -70,6 +72,13 @@ function AgregarAdicionalesPage1() {
   // Función para filtrar productos por categoría seleccionada
   const filterProductsByCategory = (event) => {
     setSelectedCategory(event.target.value);
+    if (event.target.value != "") {
+      setProductosSeleccionados(
+        productos.filter((p) => p.categoria.nombre === event.target.value)
+      );
+    } else {
+      setProductosSeleccionados(productos);
+    }
   };
 
   useEffect(() => {
@@ -87,6 +96,10 @@ function AgregarAdicionalesPage1() {
       .catch((error) => {
         console.error("Error al obtener categorías:", error);
       });
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    setCartCounter(cart.length);
   }, []);
 
   // Filtrar productos por categoría seleccionada
@@ -96,7 +109,6 @@ function AgregarAdicionalesPage1() {
   );
 
   useEffect(() => {
-    console.log("ID del local:", id);
     fetch(`http://localhost:8080/comanda/producto/local/${id}`)
       .then((response) => {
         if (!response.ok) {
@@ -107,6 +119,7 @@ function AgregarAdicionalesPage1() {
       .then((data) => {
         console.log("Datos recibidos:", data);
         setProductos(data || []);
+        setProductosSeleccionados(data || []);
       })
       .catch((error) => {
         console.error("Error al obtener productos:", error);
@@ -144,8 +157,17 @@ function AgregarAdicionalesPage1() {
     setSearchTerm(value);
   };
 
+  const addItem = (productId) => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(productos.find((p) => p.id === productId));
+    const itemsCount = cart.length;
+    localStorage.setItem("cart", JSON.stringify(cart));
+    setCartCounter(itemsCount);
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+  };
+
   const getFilteredItems = () => {
-    const filteredProductos = productos.filter(
+    const filteredProductos = productosSeleccionados.filter(
       (producto) =>
         producto.local.id.toString() === id.toString() && // Comparar IDs del local
         producto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
@@ -157,7 +179,7 @@ function AgregarAdicionalesPage1() {
   return (
     <>
       <Grid container alignContent="flex-end" className={classes.flexMargin}>
-        <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+        <StoreIcon fontSize="medium"></StoreIcon>
         {local && local.nombre && (
           <Typography component="h1" variant="h6">
             {local.nombre}
@@ -167,14 +189,14 @@ function AgregarAdicionalesPage1() {
 
       <Grid container justifyContent="center" className={classes.flexTop}>
         <Grid item xs={5}>
-          <Chip
+        <Chip
             avatar={<Avatar>$</Avatar>}
             size="medium"
             label="Visualizar consumos"
             clickable
             color="primary"
             component={Link}
-            to="/visualizar-consumos"
+            to={"/visualizar-consumos"            }
           />
         </Grid>
       </Grid>
@@ -208,59 +230,48 @@ function AgregarAdicionalesPage1() {
           </Grid>
         </Grid>
 
-        {/* Lista desplegable generada a partir de las categorías únicas */}
-        <select value={selectedCategory} onChange={filterProductsByCategory}>
-          <option value="">Todas las categorías</option>
-          {categoria.map((cat) => (
-            <option key={cat.id} value={cat.nombre}>
-              {cat.nombre}
-            </option>
-          ))}
-        </select>
+        <div>
+          {/* Lista desplegable generada a partir de las categorías únicas */}
+          <select
+            value={selectedCategory}
+            onChange={filterProductsByCategory}
+            className="margin5 padding5 bold"
+          >
+            <option value="">Todas las categorías</option>
+            {categoria.map((cat) => (
+              <option key={cat.id} value={cat.nombre}>
+                {cat.nombre}
+              </option>
+            ))}
+          </select>
 
-        {/* Filtrar y mostrar los productos */}
-        {productosDelLocal
-          .filter((producto) => {
-            if (selectedCategory === "") {
-              return true; // Mostrar todos si no se ha seleccionado una categoría
-            }
-            return producto.categoria === selectedCategory;
-          })
-          .map((producto) => (
-            // Aquí muestras los productos que coinciden con la categoría seleccionada
-            <div key={producto.id}>{producto.nombre}</div>
-          ))}
-
-        {/* Mostrar locales y categorías filtrados */}
-        {filteredProductos.map((producto) => (
-          <div key={producto.id}>{producto.nombre}</div>
-        ))}
-
-        {productosDelLocal.map((producto) => (
-          <Paper key={producto.id} className={classes.paper}>
-            <Grid container spacing={1}>
-              <Grid item>
-                <ButtonBase
-                  className={classes.image}
-                  component={Link}
-                  to={`/ver-descripcion-producto/${producto.id}`}
-                >
-                  <img
-                    className={classes.img}
-                    alt="Imagen del producto"
-                    src={producto.imagen} // Ajusta esto según la estructura de tu objeto producto
-                    style={{
-                      maxWidth: "150px",
-                      maxHeight: "100px",
-                      objectFit: "cover", // Ajusta el objetoFit según tu preferencia
-                    }}
-                  />
-                </ButtonBase>
-              </Grid>
-              <Grid item xs sm container>
-                <Grid item xs container direction="column" spacing={2}>
+          {productosDelLocal.map((producto) => (
+            <Paper className="margin5 bc-gray" key={producto.id}>
+              <Grid container className="padding5" direction="column">
+                <Grid item xs container>
+                  <ButtonBase
+                    className={classes.image}
+                    component={Link}
+                    to={`/ver-descripcion-producto/${producto.id}`}
+                  >
+                    <img
+                      className={classes.img}
+                      alt="Imagen del producto"
+                      src={producto.imagen} // Ajusta esto según la estructura de tu objeto producto
+                      style={{
+                        maxWidth: "150px",
+                        maxHeight: "100px",
+                        margin: "5px",
+                        objectFit: "cover", // Ajusta el objetoFit según tu preferencia
+                      }}
+                    />
+                  </ButtonBase>
                   <Grid item xs>
-                    <Typography gutterBottom variant="subtitle1">
+                    <Typography
+                      gutterBottom
+                      variant="subtitle1"
+                      className="underline"
+                    >
                       {producto.nombre}
                     </Typography>
                     <Typography variant="body2" gutterBottom>
@@ -269,48 +280,45 @@ function AgregarAdicionalesPage1() {
                   </Grid>
                   <Grid item>
                     <Typography variant="body2" style={{ cursor: "pointer" }}>
-                      ${producto.precio}
+                      <span className="bold font12">${producto.precio}</span>
                     </Typography>
                   </Grid>
-                </Grid>
-                <Grid item>
-                  <Fab
-                    color="primary"
-                    aria-label="add"
-                    size="small"
-                    component={Link}
-                    to={`/crear-orden/${producto.id}`}
-                  >
-                    <AddIcon />
-                  </Fab>
+
+                  <Grid item>
+                    <Fab
+                      color="primary"
+                      aria-label="add"
+                      size="small"
+                      // component={Link}
+                      // to={`/crear-orden/${producto.id}`}
+                      onClick={() => addItem(producto.id)}
+                    >
+                      <AddIcon />
+                    </Fab>
+                  </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        ))}
+            </Paper>
+          ))}
+        </div>
+        <br />
 
-        <Box>
+        <Box className={classes.flexEnd + " margin5"}>
           <Box className={classes.total}>
             <Button
               variant="contained"
-              color="primary"              
-              style={{ marginLeft: "20px", borderRadius: "30px" }}
+              color="primary"
+              // disabled
+              // component={Link}
+              // to={"/crear-orden-b/" + id}
               startIcon={<ShoppingCartIcon />}
-              component={Link}
-              to="/agregar-adicionales-3"
-            >
-              0
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"              
               style={{ borderRadius: "30px" }}
               component={Link}
-              to="/agregar-adicionales-3"
+              to="/modificar-orden"
             >
-              Seguir pidiendo
+              {cartCounter} - SEGUIR PIDIENDO
             </Button>
-            <Box style={{ marginRight: "20px" }}>Total: $0</Box>
+            <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
           </Box>
         </Box>
       </Container>

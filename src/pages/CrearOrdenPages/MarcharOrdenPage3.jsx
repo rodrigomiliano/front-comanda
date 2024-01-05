@@ -72,13 +72,14 @@ function MarcharOrdenPage3() {
           </Grid>
         </Grid>
 
+{/*TODO: linkear con el id del local, acá loe stoy seteando manualmente*/}
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
             <Button
               variant="contained"
               color="primary"
               component={Link}
-              to="/agregar-adicionales-1"
+              to="/agregar-adicionales-1/1"
             >
               CONTINUAR
             </Button>
