@@ -10,14 +10,17 @@ import {
   ButtonBase,
   Fab,
   TextField,
+  Box,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import StoreIcon from "@material-ui/icons/Store";
+import SearchIcon from "@mui/icons-material/Search";
 import MediaControlCard from "../../components/MediaControlCard";
 import AddIcon from "@material-ui/icons/Add";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import axios from "axios"; // Asegúrate de tener axios instalado
+import DialogInfo from "../../components/DialogInfo";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -138,7 +141,7 @@ function MenuItems() {
         >
           <ArrowBack />
         </Fab>
-        <StoreIcon fontSize="small"></StoreIcon>
+        <StoreIcon fontSize="medium"></StoreIcon>
         {local && local.nombre && (
           <Typography component="h1" variant="h6">
             {local.nombre}
@@ -156,7 +159,12 @@ function MenuItems() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Buscar"
+                  label={
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <SearchIcon />
+                      Buscar
+                    </div>
+                  }
                   margin="normal"
                   variant="outlined"
                   onChange={(e) => handleSearch(e.target.value)}
@@ -250,16 +258,22 @@ function MenuItems() {
           </Paper>
         ))}
 
-        <Grid container justifyContent="center" className={classes.flexEnd}>
+        <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              to="/reservar-mesa-a"
-            >
-              EMPEZAR A PEDIR
-            </Button>
+            <DialogInfo
+              mensaje="EMPEZAR A PEDIR"
+              pregunta={
+                <>
+                  ¿Ya estás en el local?
+                  <br />
+                  Si es así, empezá a pedir desde tu mesa.
+                </>
+              }
+              btnIzquierda="No"
+              btnDerecha="Sí, ya llegué"
+              hrefIzquierda=""
+              hrefDerecha={`/crear-orden-a/${id}`}
+            />
           </Grid>
         </Grid>
       </Container>

@@ -15,7 +15,7 @@ import {
   Box,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import LocalOfferIcon from "@material-ui/icons/LocalOffer";
+import StoreIcon from "@material-ui/icons/Store";
 import AddIcon from "@material-ui/icons/Add";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Autocomplete from "@material-ui/lab/Autocomplete";
@@ -179,7 +179,7 @@ function CrearOrdenAPage() {
   return (
     <>
       <Grid container alignContent="flex-end" className={classes.flexMargin}>
-        <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+        <StoreIcon fontSize="medium"></StoreIcon>
         {local && local.nombre && (
           <Typography component="h1" variant="h6">
             {local.nombre}

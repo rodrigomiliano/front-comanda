@@ -110,7 +110,7 @@ function SearchCategory() {
         >
           <ArrowBack />
         </Fab>
-        <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+        <LocalOfferIcon fontSize="medium"></LocalOfferIcon>
         {categoria && categoria.nombre && (
           <Typography component="h1" variant="h6">
             Categoria: {categoria.nombre}

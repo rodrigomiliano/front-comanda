@@ -9,6 +9,7 @@ import {
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
 import StoreIcon from "@material-ui/icons/Store";
+import SearchIcon from "@mui/icons-material/Search";
 import CarouselLink from "../../components/CarouselLink";
 import axios from "axios"; // Asegúrate de tener axios instalado
 /* import MediaControlCard from "../../components/MediaControlCard"; */
@@ -81,7 +82,12 @@ function SearchPage() {
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  label="Buscar"
+                  label={
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <SearchIcon />
+                      Buscar
+                    </div>
+                  }
                   margin="normal"
                   variant="outlined"
                   onChange={(e) => handleSearch(e.target.value)}
@@ -91,9 +97,15 @@ function SearchPage() {
                 const selectedLocal = locales.find(
                   (local) => local.nombre === value
                 );
+                const selectedCategoria = categorias.find(
+                  (categoria) => categoria.nombre === value
+                );
                 if (selectedLocal) {
                   // Redirige a la página de detalles del local con el ID del local seleccionado
                   window.location.href = `/resto/${selectedLocal.id}`;
+                } else if (selectedCategoria) {
+                  // Redirige a la página de locales con el ID de la categoria seleccionada
+                  window.location.href = `/category/${selectedCategoria.id}`;
                 }
               }}
             />
@@ -109,7 +121,7 @@ function SearchPage() {
         ))}
 
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
-          <StoreIcon fontSize="small"></StoreIcon>
+          <StoreIcon fontSize="large"></StoreIcon>
           <Typography component="h1" variant="h5">
             Locales Recomendados
           </Typography>
@@ -129,7 +141,7 @@ function SearchPage() {
         </Grid>
 
         <Grid container alignContent="flex-end" className={classes.flexMargin}>
-          <LocalOfferIcon fontSize="small"></LocalOfferIcon>
+          <LocalOfferIcon fontSize="medium"></LocalOfferIcon>
           <Typography component="h1" variant="h5">
             Categorías Populares
           </Typography>

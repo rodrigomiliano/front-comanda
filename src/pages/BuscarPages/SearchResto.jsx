@@ -12,13 +12,16 @@ import {
   ListItemIcon,
   ListItemText,
   Fab,
+  Box,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import StoreIcon from "@material-ui/icons/Store";
 import LocationOnIcon from "@material-ui/icons/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ArrowBack from "@material-ui/icons/ArrowBack";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Image from "material-ui-image";
-import { Link } from "react-router-dom";
+import DialogInfo from "../../components/DialogInfo";
 
 const useStyles = makeStyles((theme) => ({
   contImg: {
@@ -48,19 +51,11 @@ function SearchResto() {
   const classes = useStyles();
   const { id } = useParams(); // Utiliza el ID para obtener los detalles del local desde tu fuente de datos
   const [local, setLocal] = useState(null);
-  //const [nombre, setNombre] = useState("");
-  //const [calle, setCalle] = useState("");
 
   useEffect(() => {
     fetch(`http://localhost:8080/comanda/local/${id}`)
       .then((response) => response.json())
       .then((data) => {
-        //setNombre(data.nombre);
-        //setCalle(data.calle);
-        //setAltura(data.altura);
-        //setCodigo_postal(data.codigo_postal); // Actualiza con el nombre de propiedad correcto
-        //setTelefono(data.telefono);
-        //setImagen(data.imagen);
         setLocal(data);
       })
       .catch((error) => {
@@ -71,14 +66,6 @@ function SearchResto() {
   return (
     <>
       <Container disableGutters={true}>
-        {/*
-        {local && local.imagen && ( // Verifica si hay datos y una URL de imagen
-          <div
-            className={classes.contImg}
-            style={{ backgroundImage: `url(${local.imagen})` }}
-          ></div>
-        )}
-        */}
         <div className={classes.contImg}>
           <Fab
             size="small"
@@ -101,15 +88,25 @@ function SearchResto() {
         <List>
           <ListItem>
             <ListItemIcon>
+              <StoreIcon fontSize="large" />
+            </ListItemIcon>
+            {local ? (
+              <ListItemText primary={local.nombre} />
+            ) : (
+              <ListItemText primary="Cargando datos..." />
+            )}
+          </ListItem>
+
+          <ListItem>
+            <ListItemIcon>
               <LocationOnIcon fontSize="large" />
             </ListItemIcon>
             {local ? (
               <ListItemText
-                primary={local.nombre}
-                secondary={`${local.calle} ${local.altura}`}
+                secondary={`${local.calle} ${local.altura}, CP ${local.codigo_postal}`}
               />
             ) : (
-              <ListItemText primary="Cargando datos..." />
+              <ListItemText secondary="Cargando datos..." />
             )}
           </ListItem>
 
@@ -118,9 +115,9 @@ function SearchResto() {
               <PhoneIcon fontSize="large" />
             </ListItemIcon>
             {local ? (
-              <ListItemText primary={local.telefono} />
+              <ListItemText secondary={local.telefono} />
             ) : (
-              <ListItemText primary="Cargando datos..." />
+              <ListItemText secondary="Cargando datos..." />
             )}
           </ListItem>
         </List>
@@ -158,14 +155,19 @@ function SearchResto() {
 
         <Grid container justifyContent="center" className={classes.flexMargin}>
           <Grid item>
-            <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              to="/crear-orden-a/1"
-            >
-              EMPEZAR A PEDIR
-            </Button>
+            <DialogInfo
+              mensaje="EMPEZAR A PEDIR"
+              pregunta={
+                <>
+                  ¿Ya estás en el local?<br />
+                  Si es así, empezá a pedir desde tu mesa.
+                </>
+              }
+              btnIzquierda="No"
+              btnDerecha="Sí, ya llegué"
+              hrefIzquierda=""
+              hrefDerecha={`/crear-orden-a/${id}`}
+            />
           </Grid>
         </Grid>
       </Container>
