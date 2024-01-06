@@ -78,15 +78,24 @@ function ModificarOrdenPage() {
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
-  const handleDelete = () => {
-    console.info("You clicked the delete icon.");
+  const removeItem = (id) => {
+    const element = cart.find((p) => p.id == id);
+    const found = cart.indexOf(element);
+    cart.splice(found, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    refreshInfo();
   };
   useEffect(() => {
-    const userCart = JSON.parse(localStorage.getItem("cart")) || [];
-    setTotalCartItems(userCart.length);
-    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
-    setCart(userCart);
+    refreshInfo();
   }, []);
+
+  const refreshInfo = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setTotalCartItems(cart.length);
+    setTotalAmount(0);
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    setCart(cart);
+  };
 
   return (
     <>
@@ -99,10 +108,17 @@ function ModificarOrdenPage() {
             clickable
             color="primary"
             component={Link}
-            to={"/visualizar-consumos"            }
+            to={"/visualizar-consumos"}
           />
         </Grid>
       </Grid>
+      <Box
+        className={classes.flexEnd + " margin5"}
+        textAlign="center"
+        fontSize="24px"
+      >
+        Consumos para marchar
+      </Box>
 
       {cart.map((p, index) => (
         <Paper className={classes.paper} key={"paper" + index}>
@@ -110,6 +126,7 @@ function ModificarOrdenPage() {
             <Grid item>
               <ButtonBase
                 className={classes.image}
+                title={p.descripcion}
                 component={Link}
                 to="/dashboard/ver-descripcion-producto-a"
               >
@@ -137,11 +154,12 @@ function ModificarOrdenPage() {
                 </Grid>
               </Grid>
               <Grid item>
-                <Fab color="primary" aria-label="add" size="small">
-                  <AddIcon />
-                </Fab>
-
-                <Fab aria-label="remove" size="small">
+                <Fab
+                  title="Eliminar este producto"
+                  aria-label="remove"
+                  size="small"
+                  onClick={() => removeItem(p.id)}
+                >
                   <RemoveIcon />
                 </Fab>
               </Grid>
@@ -150,41 +168,36 @@ function ModificarOrdenPage() {
         </Paper>
       ))}
 
-      <div className={classes.root}>
-        {/* TODO: ver de mejorar el boton para sumar y restar items del menu */}
+      <Fab
+        color="primary"
+        title="Agregar productos"
+        aria-label="add"
+        component={Link}
+        to="/dashboard/crear-orden-a"
+      >
+        <AddIcon />
+      </Fab>
 
-        <Fab
-          color="primary"
-          aria-label="add"
-          component={Link}
-          to="/dashboard/crear-orden-b"
-        >
-          <AddIcon />
-        </Fab>
-
-        <Box>
-          <Box className={classes.total}>
-            <DialogInfo
-              mensaje={
-                <Button
-                  variant="contained"
-                  color="primary"
-                  style={{ borderRadius: "30px" }}
-                  startIcon={<ShoppingCartIcon />}
-                >
-                  {totalCartItems} - Marchar orden
-                </Button>
-              }
-              pregunta="¿Desea marchar su orden"
-              btnIzquierda="Atrás"
-              btnDerecha="Marchar"
-              hrefIzquierda=""
-              hrefDerecha="marchar-orden-3"
-            />
-            <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
-          </Box>
-        </Box>
-      </div>
+      <Box className={classes.total}>
+        <DialogInfo
+          mensaje={
+            <Button
+              variant="contained"
+              color="primary"
+              style={{ borderRadius: "30px" }}
+              startIcon={<ShoppingCartIcon />}
+            >
+              {totalCartItems} - Marchar orden
+            </Button>
+          }
+          pregunta="¿Desea marchar su orden"
+          btnIzquierda="Atrás"
+          btnDerecha="Marchar"
+          hrefIzquierda=""
+          hrefDerecha="marchar-orden-3"
+        />
+        <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
+      </Box>
     </>
   );
 }

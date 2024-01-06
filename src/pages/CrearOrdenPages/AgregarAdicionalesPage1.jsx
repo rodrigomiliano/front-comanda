@@ -189,14 +189,14 @@ function AgregarAdicionalesPage1() {
 
       <Grid container justifyContent="center" className={classes.flexTop}>
         <Grid item xs={5}>
-        <Chip
+          <Chip
             avatar={<Avatar>$</Avatar>}
             size="medium"
             label="Visualizar consumos"
             clickable
             color="primary"
             component={Link}
-            to={"/visualizar-consumos"            }
+            to={"/visualizar-consumos"}
           />
         </Grid>
       </Grid>
@@ -230,78 +230,82 @@ function AgregarAdicionalesPage1() {
           </Grid>
         </Grid>
 
-        <div>
-          {/* Lista desplegable generada a partir de las categorías únicas */}
-          <select
-            value={selectedCategory}
-            onChange={filterProductsByCategory}
-            className="margin5 padding5 bold"
-          >
-            <option value="">Todas las categorías</option>
-            {categoria.map((cat) => (
-              <option key={cat.id} value={cat.nombre}>
-                {cat.nombre}
-              </option>
-            ))}
-          </select>
+        <Box
+          className={classes.fixed + " margin5 padding5 "}
+          textAlign="center"
+          fontSize="24px"
+        >
+          Agregar adicionales
+        </Box>
+        {/* Lista desplegable generada a partir de las categorías únicas */}
+        <select
+          value={selectedCategory}
+          onChange={filterProductsByCategory}
+          className="margin5 padding5 bold"
+        >
+          <option value="">Todas las categorías</option>
+          {categoria.map((cat) => (
+            <option key={cat.id} value={cat.nombre}>
+              {cat.nombre}
+            </option>
+          ))}
+        </select>
 
-          {productosDelLocal.map((producto) => (
-            <Paper className="margin5 bc-gray" key={producto.id}>
-              <Grid container className="padding5" direction="column">
-                <Grid item xs container>
-                  <ButtonBase
-                    className={classes.image}
-                    component={Link}
-                    to={`/ver-descripcion-producto/${producto.id}`}
+        {productosDelLocal.map((producto) => (
+          <Paper className="margin5 bc-gray" key={producto.id}>
+            <Grid container className="padding5" direction="column">
+              <Grid item xs container>
+                <ButtonBase
+                  className={classes.image}
+                  component={Link}
+                  to={`/ver-descripcion-producto/${producto.id}`}
+                >
+                  <img
+                    className={classes.img}
+                    alt="Imagen del producto"
+                    src={producto.imagen} // Ajusta esto según la estructura de tu objeto producto
+                    style={{
+                      maxWidth: "150px",
+                      maxHeight: "100px",
+                      margin: "5px",
+                      objectFit: "cover", // Ajusta el objetoFit según tu preferencia
+                    }}
+                  />
+                </ButtonBase>
+                <Grid item xs>
+                  <Typography
+                    gutterBottom
+                    variant="subtitle1"
+                    className="underline"
                   >
-                    <img
-                      className={classes.img}
-                      alt="Imagen del producto"
-                      src={producto.imagen} // Ajusta esto según la estructura de tu objeto producto
-                      style={{
-                        maxWidth: "150px",
-                        maxHeight: "100px",
-                        margin: "5px",
-                        objectFit: "cover", // Ajusta el objetoFit según tu preferencia
-                      }}
-                    />
-                  </ButtonBase>
-                  <Grid item xs>
-                    <Typography
-                      gutterBottom
-                      variant="subtitle1"
-                      className="underline"
-                    >
-                      {producto.nombre}
-                    </Typography>
-                    <Typography variant="body2" gutterBottom>
-                      {producto.descripcion}
-                    </Typography>
-                  </Grid>
-                  <Grid item>
-                    <Typography variant="body2" style={{ cursor: "pointer" }}>
-                      <span className="bold font12">${producto.precio}</span>
-                    </Typography>
-                  </Grid>
+                    {producto.nombre}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom>
+                    {producto.descripcion}
+                  </Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="body2" style={{ cursor: "pointer" }}>
+                    <span className="bold font12">${producto.precio}</span>
+                  </Typography>
+                </Grid>
 
-                  <Grid item>
-                    <Fab
-                      color="primary"
-                      aria-label="add"
-                      size="small"
-                      // component={Link}
-                      // to={`/crear-orden/${producto.id}`}
-                      onClick={() => addItem(producto.id)}
-                    >
-                      <AddIcon />
-                    </Fab>
-                  </Grid>
+                <Grid item>
+                  <Fab
+                    color="primary"
+                    aria-label="add"
+                    size="small"
+                    // component={Link}
+                    // to={`/crear-orden/${producto.id}`}
+                    onClick={() => addItem(producto.id)}
+                  >
+                    <AddIcon />
+                  </Fab>
                 </Grid>
               </Grid>
-            </Paper>
-          ))}
-        </div>
-        <br />
+            </Grid>
+          </Paper>
+        ))}
 
         <Box className={classes.flexEnd + " margin5"}>
           <Box className={classes.total}>
@@ -316,7 +320,7 @@ function AgregarAdicionalesPage1() {
               component={Link}
               to="/modificar-orden"
             >
-              {cartCounter} - SEGUIR PIDIENDO
+              {cartCounter} - Ver pedido
             </Button>
             <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
           </Box>
