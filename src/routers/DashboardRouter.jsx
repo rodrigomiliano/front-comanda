@@ -42,6 +42,7 @@ import CrearOrdenA from "../pages/CrearOrdenPages/CrearOrdenAPage";
 import CrearOrdenB from "../pages/CrearOrdenPages/CrearOrdenBPage";
 import VerDescripcionProductoPage from "../pages/CrearOrdenPages/VerDescripcionProductoPage";
 import ModificarOrden from "../pages/CrearOrdenPages/ModificarOrdenPage";
+import SeleccionarMesa from "../pages/CrearOrdenPages/SeleccionarMesa";
 import MarcharOrdenPage3 from "../pages/CrearOrdenPages/MarcharOrdenPage3";
 import AgregarAdicionalesPage1 from "../pages/CrearOrdenPages/AgregarAdicionalesPage1";
 import AgregarAdicionalesPage2 from "../pages/CrearOrdenPages/AgregarAdicionalesPage2";
@@ -120,6 +121,7 @@ const DashboardRouter = () => {
           element={<VerDescripcionProductoPage />}
         />
         <Route path="modificar-orden" element={<ModificarOrden />} />
+        <Route path="seleccionar-mesa/:id" element={<SeleccionarMesa />} />
         <Route path="marchar-orden-3" element={<MarcharOrdenPage3 />} />
         <Route
           path="agregar-adicionales-1/:id"

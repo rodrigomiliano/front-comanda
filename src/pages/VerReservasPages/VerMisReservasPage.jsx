@@ -11,9 +11,6 @@ const useStyles = makeStyles((theme) => ({
   flexMargin: {
     margin: "30px 0",
   },
-  flexEnd: {
-    paddingBottom: "70px",
-  },
 }));
 
 function VerMisReservasPage() {

@@ -78,6 +78,13 @@ function ModificarOrdenPage() {
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
 
+  const [formDataMesaUso, setFormDataMesaUso] = useState({
+    mesa: {
+      id: 0,
+    },
+    comandas: [],
+  });
+
   const removeItem = (id) => {
     const element = cart.find((p) => p.id == id);
     const found = cart.indexOf(element);
@@ -89,11 +96,45 @@ function ModificarOrdenPage() {
     refreshInfo();
   }, []);
 
-  const refreshInfo = () => {
+  const sendOrder = async () => {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    setTotalAmount(0);
+    setTotalCartItems(0);
+
+    try {
+      const response = await fetch("http://localhost:8080/comanda/mesauso", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataMesaUso), // Envía el nombre en formato JSON
+      });
+
+      if (response.ok) {
+        console.log("Categoría agregada correctamente");
+        // Redireccionar a la página siguiente si se agrega correctamente
+        window.location.href = "/admin/alta-categorias-3";
+      } else {
+        console.error("Error al agregar la categoría");
+        // Mostrar la página de error si falla la adición
+        window.location.href = "/admin/alta-categorias-2-error-1";
+      }
+    } catch (error) {
+      console.error("Error al agregar categoria:", error);
+      // Puedes mostrar el error en un componente, por ejemplo, si es relevante
+      // setErrorMessage("Error al agregar categoria: " + error.message);
+    }
+    cart = cart.filter((p) => p != null);
+    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
+    setCart([]);
+  };
+
+  const refreshInfo = () => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
     setTotalCartItems(cart.length);
     setTotalAmount(0);
-    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    cart = cart.filter((p) => p != null);
+    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
     setCart(cart);
   };
 
@@ -172,8 +213,7 @@ function ModificarOrdenPage() {
         color="primary"
         title="Agregar productos"
         aria-label="add"
-        component={Link}
-        to="/dashboard/crear-orden-a"
+        onClick={sendOrder}
       >
         <AddIcon />
       </Fab>

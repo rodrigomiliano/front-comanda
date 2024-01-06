@@ -159,14 +159,15 @@ function SearchResto() {
               mensaje="EMPEZAR A PEDIR"
               pregunta={
                 <>
-                  ¿Ya estás en el local?<br />
-                  Si es así, empezá a pedir desde tu mesa.
+                  ¿Ya estás en el local?
+                  <br />
+                  Si es así, empezá a pedir desde tu mesa
                 </>
               }
               btnIzquierda="No"
               btnDerecha="Sí, ya llegué"
               hrefIzquierda=""
-              hrefDerecha={`/crear-orden-a/${id}`}
+              hrefDerecha={`/seleccionar-mesa/${id}`}
             />
           </Grid>
         </Grid>

@@ -3,49 +3,6 @@ import AlertComanda from "../../components/AlertComanda";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    marginTop: "20px",
-  },
-  paper: {
-    padding: theme.spacing(2),
-    margin: "auto",
-    marginBottom: "10px",
-    maxWidth: 500,
-  },
-  image: {
-    width: 92,
-    height: 92,
-  },
-  img: {
-    margin: "auto",
-    display: "block",
-    maxWidth: "100%",
-    maxHeight: "100%",
-  },
-  total: {
-    marginRight: "20px",
-    borderRadius: "30px",
-    backgroundColor: theme.palette.success.dark,
-    padding: "8px",
-    color: "white",
-    width: "100%",
-    fontSize: "18px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  total2: {
-    marginRight: "20px",
-    borderRadius: "30px",
-    backgroundColor: theme.palette.primary.dark,
-    color: "white",
-    width: "100%",
-    fontSize: "18px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
   flexTop: {
     marginTop: "30px",
   },
@@ -56,6 +13,27 @@ const useStyles = makeStyles((theme) => ({
 
 function MarcharOrdenPage3() {
   const classes = useStyles();
+
+  useEffect(() => {
+    // Llamada a la API para obtener las categorías
+    fetch(`http://localhost:8080/comanda/categoria`)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCategoria(data || []);
+      })
+      .catch((error) => {
+        console.error("Error al obtener categorías:", error);
+      });
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    setCartCounter(cart.length);
+  }, []);
 
   return (
     <>

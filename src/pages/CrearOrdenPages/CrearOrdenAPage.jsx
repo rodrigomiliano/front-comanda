@@ -96,9 +96,11 @@ function CrearOrdenAPage() {
       .catch((error) => {
         console.error("Error al obtener categorías:", error);
       });
-
+    setTotalAmount(0);
+    JSON.parse(localStorage.getItem("cart")) || [];
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    cart = cart.filter((p) => p != null);
+    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
     setCartCounter(cart.length);
   }, []);
 
@@ -163,7 +165,8 @@ function CrearOrdenAPage() {
     const itemsCount = cart.length;
     localStorage.setItem("cart", JSON.stringify(cart));
     setCartCounter(itemsCount);
-    cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
+    cart = cart.filter((p) => p != null);
+    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
   };
 
   const getFilteredItems = () => {
