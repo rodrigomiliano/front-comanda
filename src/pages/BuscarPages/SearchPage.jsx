@@ -149,13 +149,15 @@ function SearchPage() {
 
         <Grid container justifyContent="center" className={classes.flexTop}>
           <Grid item xs={12}>
-            {/* Utiliza el componente Carousel para mostrar los nombres de las categorías */}
+            {/* Utiliza el componente Carousel para mostrar los nombres de las categorías */}           
             <CarouselLink
-              slides={categorias.map((categoria) => ({
-                text: categoria.nombre,
-                image: categoria.imagen, // Agrega la URL de la imagen de la categoría
-                link: `/category/${categoria.id}`, // Establece el enlace con el ID del local
-              }))}
+              slides={categorias
+                .filter((categoria) => categoria.destacado) // Filtrar solo categorías destacadas
+                .map((categoria) => ({
+                  text: categoria.nombre,
+                  image: categoria.imagen, // Agrega la URL de la imagen de la categoría
+                  link: `/category/${categoria.id}`, // Establece el enlace con el ID del local
+                }))}
             />
           </Grid>
         </Grid>

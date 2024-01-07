@@ -9,10 +9,15 @@ import {
   Fab,
   Button,
   TextField,
+  Select,
+  MenuItem,
+  FormHelperText,
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import { Link } from "react-router-dom";
 import MultipleSelect from "../../components/MultipleSelect";
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +34,7 @@ function AltaCategoriasPage2() {
   const [formData, setFormData] = useState({
     nombre: "",
     imagen: "",
+    destacado: 0, // Inicialmente no establecido
   });
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [showWarning, setShowWarning] = useState(false);
@@ -123,6 +129,22 @@ function AltaCategoriasPage2() {
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item>
           <UploadWidget onImageUpload={handleImageUpload} />
+        </Grid>
+      </Grid>
+
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item>
+          <Typography variant="body1">¿Es destacada?</Typography>
+          {formData.destacado ? (
+            <StarIcon
+              color="secondary"
+              onClick={() => setFormData({ ...formData, destacado: 0 })}
+            />
+          ) : (
+            <StarBorderIcon
+              onClick={() => setFormData({ ...formData, destacado: 1 })}
+            />
+          )}
         </Grid>
       </Grid>
 

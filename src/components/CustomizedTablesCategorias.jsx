@@ -16,6 +16,8 @@ import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import DialogInfo from "./DialogInfo";
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 import axios from "axios"; // Importa axios para realizar solicitudes HTTP
 
 const StyledTableCell = withStyles((theme) => ({
@@ -59,51 +61,64 @@ export default function CustomizedTables({
             {/*<StyledTableCell align="center">ID_LOCAL</StyledTableCell>*/}
             <StyledTableCell align="center">FOTO</StyledTableCell>
             <StyledTableCell align="center">ACTIVO</StyledTableCell>
+            <StyledTableCell align="center">DESTACADO</StyledTableCell>
             <StyledTableCell align="center">ACCIONES</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {categorias &&
-            categorias.map(({ id, nombre, id_local, imagen, activo }) => (
-              <StyledTableRow key={id}>
-                <StyledTableCell align="center">{id}</StyledTableCell>
-                <StyledTableCell align="center">{nombre}</StyledTableCell>
-                {/*<StyledTableCell align="center">{id_local}</StyledTableCell>*/}
-                <StyledTableCell align="center">
-                  <img
-                    src={imagen}
-                    alt="Imagen de categoria"
-                    style={{ width: "100px", height: "auto" }}
-                  />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Switch checked={activo} readOnly />
-                </StyledTableCell>
-                <StyledTableCell align="center">
-                  <Grid container justifyContent="center" spacing={2}>
-                    <Grid item xs={3}>
-                      <IconButton
-                        aria-label="edit"
-                        onClick={() => handleEdit(id)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                    </Grid>
-                    <Grid item xs={3}>
-                      <DialogInfo
-                        mensaje={<DeleteIcon aria-label="delete" />}
-                        pregunta="¿Realmente desea eliminar la categoría?"
-                        btnIzquierda="Cancelar"
-                        btnDerecha="Aceptar"
-                        onConfirm={() => handleDelete(id)}
-                        hrefIzquierda=""
-                        hrefDerecha="baja-categorias"
+            categorias.map(
+              ({ id, nombre, id_local, imagen, activo, destacado }) => {
+                console.log("Valor de destacado:", destacado); // Agrega este console.log
+                return (
+                  <StyledTableRow key={id}>
+                    <StyledTableCell align="center">{id}</StyledTableCell>
+                    <StyledTableCell align="center">{nombre}</StyledTableCell>
+                    {/*<StyledTableCell align="center">{id_local}</StyledTableCell>*/}
+                    <StyledTableCell align="center">
+                      <img
+                        src={imagen}
+                        alt="Imagen de categoria"
+                        style={{ width: "100px", height: "auto" }}
                       />
-                    </Grid>
-                  </Grid>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Switch checked={activo} readOnly />
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {destacado ? (
+                        <StarIcon color="secondary" />
+                      ) : (
+                        <StarBorderIcon />
+                      )}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      <Grid container justifyContent="center" spacing={2}>
+                        <Grid item xs={3}>
+                          <IconButton
+                            aria-label="edit"
+                            onClick={() => handleEdit(id)}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </Grid>
+                        <Grid item xs={3}>
+                          <DialogInfo
+                            mensaje={<DeleteIcon aria-label="delete" />}
+                            pregunta="¿Realmente desea eliminar la categoría?"
+                            btnIzquierda="Cancelar"
+                            btnDerecha="Aceptar"
+                            onConfirm={() => handleDelete(id)}
+                            hrefIzquierda=""
+                            hrefDerecha="baja-categorias"
+                          />
+                        </Grid>
+                      </Grid>
+                    </StyledTableCell>
+                  </StyledTableRow>
+                );
+              }
+            )}
         </TableBody>
       </Table>
     </TableContainer>
