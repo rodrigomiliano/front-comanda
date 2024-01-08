@@ -140,6 +140,8 @@ function ModificarOrdenPage() {
   };
 
   const marcharOrden = () => {
+    refreshInfo();
+    localStorage.setItem("cart", JSON.stringify([]));
     navigate("/marchar-orden-3/");
   };
 

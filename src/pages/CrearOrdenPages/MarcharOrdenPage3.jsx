@@ -33,7 +33,6 @@ function MarcharOrdenPage3() {
       .catch((error) => {
         console.error("Error al obtener categorías:", error);
       });
-
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart.forEach((x) => setTotalAmount(totalAmount + x.precio));
     setCartCounter(cart.length);
