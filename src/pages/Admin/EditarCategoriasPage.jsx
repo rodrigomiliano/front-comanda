@@ -14,6 +14,9 @@ import {
 import ArrowBack from "@material-ui/icons/ArrowBack";
 import MultipleSelect from "../../components/MultipleSelect";
 import AlertComanda from "../../components/AlertComanda";
+import StarIcon from "@material-ui/icons/Star";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
+import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -28,8 +31,16 @@ function EditarCategoriasPage() {
   const classes = useStyles();
   const [categoria, setCategoria] = useState(null);
   const [nombreCategoria, setNombreCategoria] = useState("");
-  const { id } = useParams();  
+  const [imagen, setImagen] = useState("");
+  const [destacado, setDestacado] = useState("");
+  const { id } = useParams();
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
+  const [nuevaImagenCargada, setNuevaImagenCargada] = useState(false);
+
+  const handleImageUpload = (imageUrl) => {
+    setImagen(imageUrl); // Actualiza el estado de la imagen con la URL cargada
+    setNuevaImagenCargada(true); // Indica que se ha cargado una nueva imagen
+  };
 
   useEffect(() => {
     setBotonDeshabilitado(!nombreCategoria || nombreCategoria.trim() === "");
@@ -42,6 +53,8 @@ function EditarCategoriasPage() {
       .then((data) => {
         // Asegúrate de que nombreCategoria tenga el valor correcto antes de actualizar el estado
         setNombreCategoria(data.nombre);
+        setImagen(data.imagen);
+        setDestacado(data.destacado);
         setCategoria(data);
       })
       .catch((error) => {
@@ -54,14 +67,18 @@ function EditarCategoriasPage() {
       console.error("El nombre no puede estar vacío");
       return;
     }
-  
+
     console.log("Nombre a guardar:", nombreCategoria);
     fetch(`http://localhost:8080/comanda/categoria/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ nombre: nombreCategoria }),
+      body: JSON.stringify({
+        nombre: nombreCategoria,
+        imagen: imagen,
+        destacado: destacado,
+      }),
     })
       .then((response) => {
         if (!response.ok) {
@@ -99,7 +116,7 @@ function EditarCategoriasPage() {
               Categorías
             </Typography>
           </Box>
-        </Grid>        
+        </Grid>
       </Grid>
 
       <Divider />
@@ -149,11 +166,50 @@ function EditarCategoriasPage() {
         </Grid>
       </Grid>
 
-      {/*<Grid container justifyContent="center" className={classes.flexMargin}>
-        <Grid item>
-          <MultipleSelect></MultipleSelect>
+      {!nuevaImagenCargada && imagen && (
+        <Grid container justifyContent="center" className={classes.flexMargin}>
+          <Grid item xl={6}>
+            <Typography variant="subtitle1">
+              Vista previa de la imagen:
+            </Typography>
+            <div style={{ marginTop: "10px" }}>
+              <img
+                src={imagen}
+                alt="Imagen actual"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              />
+            </div>
+            <Typography variant="subtitle2">
+              Nombre de la imagen:{" "}
+              {imagen.substring(imagen.lastIndexOf("/") + 1)}
+            </Typography>
+          </Grid>
         </Grid>
-      </Grid>*/}
+      )}
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item xl={6}>
+          <UploadWidget
+            onImageUpload={handleImageUpload}
+            currentImage={imagen}
+          />
+        </Grid>
+      </Grid>
+
+      <Grid container justifyContent="center" className={classes.flexMargin}>
+        <Grid item>
+          <Typography variant="body1">¿Es destacada?</Typography>
+          {destacado ? (
+            <StarIcon
+              color="secondary"
+              onClick={() => setDestacado(false)} // Cambia el estado a "false" al hacer clic en la estrella llena
+            />
+          ) : (
+            <StarBorderIcon
+              onClick={() => setDestacado(true)} // Cambia el estado a "true" al hacer clic en la estrella vacía
+            />
+          )}
+        </Grid>
+      </Grid>
 
       <Grid container justifyContent="center">
         <Grid item>

@@ -17,6 +17,7 @@ import {
   Select,
 } from "@material-ui/core";
 import ArrowBack from "@material-ui/icons/ArrowBack";
+import UploadWidget from "../../components/cloudinary/UploadWidget";
 
 const useStyles = makeStyles((theme) => ({
   flexTop: {
@@ -42,43 +43,66 @@ function EditarLocalesPage() {
   const [showAlturaWarning, setShowAlturaWarning] = useState(false);
   const [showCPWarning, setShowCPWarning] = useState(false);
   const [showTelWarning, setShowTelWarning] = useState(false);
+  const [nuevaImagenCargada, setNuevaImagenCargada] = useState(false);
+
+  const handleImageUpload = (imageUrl) => {
+    setImagen(imageUrl); // Actualiza el estado de la imagen con la URL cargada
+    setNuevaImagenCargada(true); // Indica que se ha cargado una nueva imagen
+  };
 
   useEffect(() => {
-    const isNumericAltura = !altura || String(altura).trim() === "" || Number.isInteger(parseFloat(altura));
-    const isNumericCP = !codigo_postal || String(codigo_postal).trim() === "" || Number.isInteger(parseFloat(codigo_postal));
-    const isNumericTel = !telefono || String(telefono).trim() === "" || Number.isInteger(parseFloat(telefono));
-  
+    const isNumericAltura =
+      !altura ||
+      String(altura).trim() === "" ||
+      Number.isInteger(parseFloat(altura));
+    const isNumericCP =
+      !codigo_postal ||
+      String(codigo_postal).trim() === "" ||
+      Number.isInteger(parseFloat(codigo_postal));
+    const isNumericTel =
+      !telefono ||
+      String(telefono).trim() === "" ||
+      Number.isInteger(parseFloat(telefono));
+
     const camposCompletos =
-      nombre.trim() && calle.trim() && imagen.trim() &&
+      nombre.trim() &&
+      calle.trim() &&
+      imagen.trim() &&
       isNumericAltura &&
       isNumericCP &&
       isNumericTel;
-  
+
     const camposNulos = !altura || !codigo_postal || !telefono;
-  
+
     setBotonDeshabilitado(!camposCompletos || camposNulos);
   }, [nombre, calle, imagen, altura, codigo_postal, telefono, descripcion]);
-   
 
   const handleAlturaChange = (e) => {
     const value = e.target.value;
     setAltura(value);
-    setShowAlturaWarning(value.trim() !== '' && (isNaN(value) || !Number.isInteger(parseFloat(value))));
+    setShowAlturaWarning(
+      value.trim() !== "" &&
+        (isNaN(value) || !Number.isInteger(parseFloat(value)))
+    );
   };
-  
+
   const handleCodigoPostalChange = (e) => {
     const value = e.target.value;
     setCodigo_postal(value);
-    setShowCPWarning(value.trim() !== '' && (isNaN(parseInt(value)) || !Number.isInteger(parseFloat(value))));
+    setShowCPWarning(
+      value.trim() !== "" &&
+        (isNaN(parseInt(value)) || !Number.isInteger(parseFloat(value)))
+    );
   };
-  
+
   const handleTelefonoChange = (e) => {
     const value = e.target.value;
     setTelefono(value);
-    setShowTelWarning(value.trim() !== '' && (isNaN(parseInt(value)) || !Number.isInteger(parseFloat(value))));
+    setShowTelWarning(
+      value.trim() !== "" &&
+        (isNaN(parseInt(value)) || !Number.isInteger(parseFloat(value)))
+    );
   };
-  
-
 
   useEffect(() => {
     fetch(`http://localhost:8080/comanda/local/${id}`)
@@ -279,18 +303,32 @@ function EditarLocalesPage() {
         </Grid>
       </Grid>
 
+      {!nuevaImagenCargada && imagen && (
+        <Grid container justifyContent="center" className={classes.flexMargin}>
+          <Grid item xl={6}>
+            <Typography variant="subtitle1">
+              Vista previa de la imagen:
+            </Typography>
+            <div style={{ marginTop: "10px" }}>
+              <img
+                src={imagen}
+                alt="Imagen actual"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              />
+            </div>
+            <Typography variant="subtitle2">
+              Nombre de la imagen:{" "}
+              {imagen.substring(imagen.lastIndexOf("/") + 1)}
+            </Typography>
+          </Grid>
+        </Grid>
+      )}
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
-          <label htmlFor="imagen">
-            <TextField
-              id="imagen"
-              label="Imagen URL"
-              variant="outlined"
-              fullWidth
-              value={imagen}
-              onChange={(e) => setImagen(e.target.value)}
-            />
-          </label>
+          <UploadWidget
+            onImageUpload={handleImageUpload}
+            currentImage={imagen}
+          />
         </Grid>
       </Grid>
 

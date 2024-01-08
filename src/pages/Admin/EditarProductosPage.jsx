@@ -43,9 +43,11 @@ function EditarProductosPage() {
   const { id } = useParams();
   const [botonDeshabilitado, setBotonDeshabilitado] = useState(true);
   const [precioValido, setPrecioValido] = useState(true);
-  
+  const [nuevaImagenCargada, setNuevaImagenCargada] = useState(false);
+
   const handleImageUpload = (imageUrl) => {
     setImagen(imageUrl); // Actualiza el estado de la imagen con la URL cargada
+    setNuevaImagenCargada(true); // Indica que se ha cargado una nueva imagen
   };
 
   // Función para obtener las categorías
@@ -66,7 +68,7 @@ function EditarProductosPage() {
   useEffect(() => {
     obtenerCategorias();
   }, []);
- 
+
   // Función para obtener las categorías
   const obtenerLocales = async () => {
     try {
@@ -325,9 +327,32 @@ function EditarProductosPage() {
         </Grid>
       </Grid>
 
+      {!nuevaImagenCargada && imagen && (
+        <Grid container justifyContent="center" className={classes.flexMargin}>
+          <Grid item xl={6}>
+            <Typography variant="subtitle1">
+              Vista previa de la imagen:
+            </Typography>
+            <div style={{ marginTop: "10px" }}>
+              <img
+                src={imagen}
+                alt="Imagen actual"
+                style={{ maxWidth: "150px", maxHeight: "150px" }}
+              />
+            </div>
+            <Typography variant="subtitle2">
+              Nombre de la imagen:{" "}
+              {imagen.substring(imagen.lastIndexOf("/") + 1)}
+            </Typography>
+          </Grid>
+        </Grid>
+      )}
       <Grid container justifyContent="center" className={classes.flexMargin}>
         <Grid item xl={6}>
-          <UploadWidget onImageUpload={handleImageUpload} currentImage={imagen} />
+          <UploadWidget
+            onImageUpload={handleImageUpload}
+            currentImage={imagen}
+          />
         </Grid>
       </Grid>
 
