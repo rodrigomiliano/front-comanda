@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   Chip,
   Grid,
@@ -73,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function ModificarOrdenPage() {
+  const navigate = useNavigate();
   const classes = useStyles();
   const [cart, setCart] = useState([]);
   const [totalCartItems, setTotalCartItems] = useState(0);
@@ -101,6 +104,13 @@ function ModificarOrdenPage() {
     setTotalAmount(0);
     setTotalCartItems(0);
 
+    const tableId = JSON.parse(localStorage.getItem("tableId"));
+    debugger;
+    setFormDataMesaUso({
+      ...formDataMesaUso,
+      mesa: tableId,
+      comandas: id,
+    });
     try {
       const response = await fetch("http://localhost:8080/comanda/mesauso", {
         method: "POST",
@@ -127,6 +137,10 @@ function ModificarOrdenPage() {
     cart = cart.filter((p) => p != null);
     cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
     setCart([]);
+  };
+
+  const marcharOrden = () => {
+    navigate("/marchar-orden-3/");
   };
 
   const refreshInfo = () => {
@@ -226,6 +240,7 @@ function ModificarOrdenPage() {
               color="primary"
               style={{ borderRadius: "30px" }}
               startIcon={<ShoppingCartIcon />}
+              onClick={marcharOrden}
             >
               {totalCartItems} - Marchar orden
             </Button>
@@ -233,8 +248,6 @@ function ModificarOrdenPage() {
           pregunta="¿Desea marchar su orden"
           btnIzquierda="Atrás"
           btnDerecha="Marchar"
-          hrefIzquierda=""
-          hrefDerecha="marchar-orden-3"
         />
         <Box style={{ marginRight: "20px" }}>Total: ${totalAmount}</Box>
       </Box>

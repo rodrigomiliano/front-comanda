@@ -54,7 +54,6 @@ function AgregarAdicionalesPage1() {
   const [locales, setLocales] = useState([]);
   const [cartCounter, setCartCounter] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
-  const [categorias, setCategorias] = useState([]);
   const [categoria, setCategoria] = useState([]);
   const [filteredProductos, setFilteredProductos] = useState([]);
   const productosDelLocal = productosSeleccionados.filter(
@@ -318,7 +317,7 @@ function AgregarAdicionalesPage1() {
               startIcon={<ShoppingCartIcon />}
               style={{ borderRadius: "30px" }}
               component={Link}
-              to="/modificar-orden"
+              to="/modificar-orden/"
             >
               {cartCounter} - Ver pedido
             </Button>

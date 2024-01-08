@@ -151,21 +151,13 @@ function CrearOrdenAPage() {
                     component={Link}
                     to={`/ver-descripcion-producto/${mesaItem.id}`}
                   >
-                    {mesaItem.imagen ? (
-                      <img
-                        className={classes.img}
-                        alt="Imagen del producto"
-                        src={mesaItem.imagen} // Ajusta esto según la estructura de tu objeto producto
-                        style={{
-                          maxWidth: "150px",
-                          maxHeight: "100px",
-                          margin: "5px",
-                          objectFit: "cover", // Ajusta el objetoFit según tu preferencia
-                        }}
-                      />
-                    ) : (
-                      "imagen"
-                    )}
+                    <Box>
+                      <ul>
+                        <li>{"Id: " + mesaItem.id}</li>
+                        <li>{"Sillas: " + mesaItem.sillas}</li>
+                        <li>{"Observaciones: " + mesaItem.observacion}</li>
+                      </ul>
+                    </Box>
                   </ButtonBase>
                   <Grid item xs>
                     <Typography

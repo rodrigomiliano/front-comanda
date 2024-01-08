@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import { Grid, Button, Container, makeStyles } from "@material-ui/core";
 import AlertComanda from "../../components/AlertComanda";
 import { Link } from "react-router-dom";
@@ -13,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
 
 function MarcharOrdenPage3() {
   const classes = useStyles();
+  const [categorias, setCategorias] = useState([]);
+  const [totalAmount, setTotalAmount] = useState(0);
+  const [cartCounter, setCartCounter] = useState(0);
 
   useEffect(() => {
     // Llamada a la API para obtener las categorías
@@ -24,7 +28,7 @@ function MarcharOrdenPage3() {
         return response.json();
       })
       .then((data) => {
-        setCategoria(data || []);
+        setCategorias(data || []);
       })
       .catch((error) => {
         console.error("Error al obtener categorías:", error);
@@ -57,7 +61,7 @@ function MarcharOrdenPage3() {
               variant="contained"
               color="primary"
               component={Link}
-              to="/agregar-adicionales-1/1"
+              to="/agregar-adicionales-1/1" //corregir hardcode /1
             >
               CONTINUAR
             </Button>
