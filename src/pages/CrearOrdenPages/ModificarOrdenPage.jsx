@@ -107,12 +107,32 @@ function ModificarOrdenPage() {
     localStorage.setItem("cart", JSON.stringify([]));
 
     const tableId = JSON.parse(localStorage.getItem("tableId"));
-    debugger;
     setFormDataMesaUso({
       ...formDataMesaUso,
       mesa: tableId,
-      comandas: id,
+      comandas: {
+        id: null,
+        estado: {
+          id: 7,
+        },
+        mesaUso: {
+          id: null,
+          mesa: {
+            id: tableId,
+          },
+          comandas: [
+            {
+              id: null,
+              estado: {
+                id: 7,
+              },
+              itemComandas: cart,
+            },
+          ],
+        },
+      },
     });
+    debugger;
     try {
       const response = await fetch("http://localhost:8080/comanda/mesauso", {
         method: "POST",
