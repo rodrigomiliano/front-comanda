@@ -132,7 +132,7 @@ function VerDescripcionProductoPage() {
               style={{ marginLeft: "20px", borderRadius: "30px" }}
               startIcon={<ShoppingCartIcon />}
               component={Link}
-              to="/modificar-orden"
+              to={"/modificar-orden/" + id}
               //disabled
             >
               0
@@ -142,7 +142,7 @@ function VerDescripcionProductoPage() {
               color="primary"
               style={{ borderRadius: "30px" }}
               component={Link}
-              to="/modificar-orden"
+              to={"/modificar-orden/" + id}
               //disabled
             >
               Ver mis pedidos

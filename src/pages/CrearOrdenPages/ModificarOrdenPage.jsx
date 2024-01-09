@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
 function ModificarOrdenPage() {
   const navigate = useNavigate();
   const classes = useStyles();
+  const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [totalCartItems, setTotalCartItems] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
@@ -103,6 +104,7 @@ function ModificarOrdenPage() {
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     setTotalAmount(0);
     setTotalCartItems(0);
+    localStorage.setItem("cart", JSON.stringify([]));
 
     const tableId = JSON.parse(localStorage.getItem("tableId"));
     debugger;
@@ -135,22 +137,20 @@ function ModificarOrdenPage() {
       // setErrorMessage("Error al agregar categoria: " + error.message);
     }
     cart = cart.filter((p) => p != null);
-    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
+    let total = 0;
+    cart.forEach((x) => (total += x?.precio));
+    setTotalAmount(total);
     setCart([]);
-  };
-
-  const marcharOrden = () => {
-    refreshInfo();
-    localStorage.setItem("cart", JSON.stringify([]));
     navigate("/marchar-orden-3/");
   };
 
   const refreshInfo = () => {
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     setTotalCartItems(cart.length);
-    setTotalAmount(0);
     cart = cart.filter((p) => p != null);
-    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
+    let total = 0;
+    cart.forEach((x) => (total += x?.precio));
+    setTotalAmount(total);
     setCart(cart);
   };
 
@@ -229,7 +229,8 @@ function ModificarOrdenPage() {
         color="primary"
         title="Agregar productos"
         aria-label="add"
-        onClick={sendOrder}
+        component={Link}
+        to={"/crear-orden-a/" + id}
       >
         <AddIcon />
       </Fab>
@@ -242,7 +243,7 @@ function ModificarOrdenPage() {
               color="primary"
               style={{ borderRadius: "30px" }}
               startIcon={<ShoppingCartIcon />}
-              onClick={marcharOrden}
+              onClick={sendOrder}
             >
               {totalCartItems} - Marchar orden
             </Button>

@@ -317,7 +317,7 @@ function AgregarAdicionalesPage1() {
               startIcon={<ShoppingCartIcon />}
               style={{ borderRadius: "30px" }}
               component={Link}
-              to="/modificar-orden/"
+              to={"/modificar-orden/" + id}
             >
               {cartCounter} - Ver pedido
             </Button>

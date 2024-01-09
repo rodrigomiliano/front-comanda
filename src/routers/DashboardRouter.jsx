@@ -120,7 +120,7 @@ const DashboardRouter = () => {
           path="ver-descripcion-producto/:id"
           element={<VerDescripcionProductoPage />}
         />
-        <Route path="modificar-orden" element={<ModificarOrden />} />
+        <Route path="modificar-orden/:id" element={<ModificarOrden />} />
         <Route path="seleccionar-mesa/:id" element={<SeleccionarMesa />} />
         <Route path="marchar-orden-3" element={<MarcharOrdenPage3 />} />
         <Route

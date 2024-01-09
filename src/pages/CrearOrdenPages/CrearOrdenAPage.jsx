@@ -96,11 +96,12 @@ function CrearOrdenAPage() {
       .catch((error) => {
         console.error("Error al obtener categorías:", error);
       });
-    setTotalAmount(0);
     JSON.parse(localStorage.getItem("cart")) || [];
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
     cart = cart.filter((p) => p != null);
-    cart.forEach((x) => setTotalAmount(totalAmount + x?.precio));
+    let total = 0;
+    cart.forEach((x) => setTotalAmount((total += x?.precio)));
+    setTotalAmount(total);
     setCartCounter(cart.length);
   }, []);
 
@@ -316,7 +317,7 @@ function CrearOrdenAPage() {
               startIcon={<ShoppingCartIcon />}
               style={{ borderRadius: "30px" }}
               component={Link}
-              to="/modificar-orden"
+              to={"/modificar-orden/" + id}
             >
               {cartCounter} - Ver mis pedidos
             </Button>
